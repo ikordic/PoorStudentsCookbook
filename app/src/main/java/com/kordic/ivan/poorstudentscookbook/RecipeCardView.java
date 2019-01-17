@@ -11,5 +11,6 @@ public class RecipeCardView extends AppCompatActivity {
         setContentView(R.layout.activity_recipe_card_view);
 
         //test//
+        //branch test//
     }
 }
