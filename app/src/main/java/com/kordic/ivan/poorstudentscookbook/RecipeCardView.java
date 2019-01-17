@@ -9,5 +9,7 @@ public class RecipeCardView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_card_view);
+
+        //test//
     }
 }
