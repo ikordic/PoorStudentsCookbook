@@ -1,5 +1,6 @@
 package com.kordic.ivan.poorstudentscookbook;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -14,5 +15,7 @@ public class RecipeCardViewActivity extends AppCompatActivity
         setContentView(R.layout.activity_recipe_card_view);
 
         //Firebase and Glide dependencies configured.
+        Intent i = new Intent(RecipeCardViewActivity.this, RegisterActivity.class);
+        startActivity(i);
     }
 }
