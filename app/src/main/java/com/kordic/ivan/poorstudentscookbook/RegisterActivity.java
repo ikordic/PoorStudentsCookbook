@@ -1,5 +1,6 @@
 package com.kordic.ivan.poorstudentscookbook;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,7 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import net.yslibrary.android.keyboardvisibilityevent.util.UIUtil;
-//12:50 - 15:10
+//12:50 - 15:10 = 140min
 public class RegisterActivity extends AppCompatActivity
 {
     //FirebaseAuth instance
@@ -36,7 +37,7 @@ public class RegisterActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-
+        startActivity(new Intent(RegisterActivity.this, RecipeActivity.class));
         //FirebaseAuth initialization
         userAuth = FirebaseAuth.getInstance();
 
@@ -146,6 +147,7 @@ public class RegisterActivity extends AppCompatActivity
                 Toast.makeText(RegisterActivity.this, "Signed out!", Toast.LENGTH_SHORT).show();
             }
         });
+
 
         //Show email of logged user
         buttonShow.setOnClickListener(new View.OnClickListener()
