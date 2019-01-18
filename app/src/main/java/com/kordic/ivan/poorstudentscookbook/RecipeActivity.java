@@ -17,6 +17,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.kordic.ivan.poorstudentscookbook.Model.Recipe;
 
+import net.yslibrary.android.keyboardvisibilityevent.util.UIUtil;
+
 public class RecipeActivity extends AppCompatActivity
 {
     //16:00 - 19:00
@@ -71,6 +73,9 @@ public class RecipeActivity extends AppCompatActivity
                             public void onSuccess(Void aVoid)
                             {
                                 Toast.makeText(RecipeActivity.this, "Recipe added successfuly", Toast.LENGTH_SHORT).show();
+                                editTextRecipeName.setText("");
+                                editTextRecipeDescription.setText("");
+                                UIUtil.hideKeyboard(RecipeActivity.this);
                             }
                         })
                         .addOnFailureListener(new OnFailureListener()
