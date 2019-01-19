@@ -11,14 +11,16 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.kordic.ivan.poorstudentscookbook.Model.Recipe;
 import com.kordic.ivan.poorstudentscookbook.R;
 
 
-//Atapter gets data from the source into the recyclerview
+//Adapter gets data from the source into the recyclerview
 
 public class RecipeAdapter extends FirestoreRecyclerAdapter<Recipe, RecipeAdapter.RecipeHolder>
 {
+    private OnItemClickListener listener;
 
     public RecipeAdapter(@NonNull FirestoreRecyclerOptions<Recipe> options)
     {
@@ -61,7 +63,36 @@ public class RecipeAdapter extends FirestoreRecyclerAdapter<Recipe, RecipeAdapte
             textViewRecipeDescriptionCard = itemView.findViewById(R.id.textViewRecipeDescriptionCard);
             imageViewRecipeCard = itemView.findViewById(R.id.imageViewRecipeCard);
 
+            itemView.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+                    int position = getAdapterPosition();
+                    if(position != RecyclerView.NO_POSITION && listener != null)
+                    {
+                        listener.onItemClick(getSnapshots().getSnapshot(position), position);
+                    }
+                }
+            });
         }
 
     }
+
+    //Deleting recipe
+    public void deleteItem(int position)
+    {
+        getSnapshots().getSnapshot(position).getReference().delete();
+    }
+
+    //Click transfer interface
+    public interface OnItemClickListener
+    {
+        void onItemClick(DocumentSnapshot documentSnapshot, int position);
+    }
+    public void setOnItemClickListener(OnItemClickListener listener)
+    {
+        this.listener = listener;
+    }
+
 }

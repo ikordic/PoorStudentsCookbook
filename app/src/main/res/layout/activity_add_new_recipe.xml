@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".AddNewRecipeActivity">
+
+    <TextView
+        android:id="@+id/textViewNewRecipe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="30dp"
+        android:textSize="30sp"
+        android:textAlignment="center"
+        android:text="Add new recipe" />
+
+    <EditText
+        android:id="@+id/editTextNewRecipeName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginRight="30dp"
+        android:hint="Recipe name"
+        android:inputType="textEmailAddress"
+        android:padding="20dp"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/editTextNewRecipeDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:hint="Recipe description"
+        android:inputType="textLongMessage"
+        android:padding="20dp"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/editTextNewRecipeImageUrl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:hint="Recipe image URL"
+        android:inputType="textLongMessage"
+        android:padding="20dp"
+        android:textSize="18sp"
+        tools:ignore="TextFields" />
+
+    <Button
+        android:id="@+id/buttonSaveNewRecipe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:textSize="16sp"
+        android:text="Save recipe" />
+
+</LinearLayout>
