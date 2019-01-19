@@ -1,0 +1,67 @@
+package com.kordic.ivan.poorstudentscookbook.Adapter;
+
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.kordic.ivan.poorstudentscookbook.Model.Recipe;
+import com.kordic.ivan.poorstudentscookbook.R;
+
+
+//Atapter gets data from the source into the recyclerview
+
+public class RecipeAdapter extends FirestoreRecyclerAdapter<Recipe, RecipeAdapter.RecipeHolder>
+{
+
+    public RecipeAdapter(@NonNull FirestoreRecyclerOptions<Recipe> options)
+    {
+        super(options);
+    }
+
+    @Override
+    protected void onBindViewHolder(@NonNull RecipeHolder holder, int position, @NonNull Recipe model)
+    {
+
+
+        //Adding in the parameters in the holder
+        holder.textViewRecipeNameCard.setText(model.getRecipeName());
+        holder.textViewRecipeDescriptionCard.setText(model.getRecipeDescription());
+        Glide.with(holder.imageViewRecipeCard.getContext()).load(model.getRecipeImage()).into(holder.imageViewRecipeCard);
+
+    }
+
+    @NonNull
+    @Override
+    public RecipeHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i)
+    {
+        //Setting the inflater ??
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recipe_card_element, viewGroup, false);
+        return new RecipeHolder(v);
+    }
+
+    //Viewholder parameters
+    class RecipeHolder extends RecyclerView.ViewHolder
+    {
+        private TextView textViewRecipeNameCard;
+        private TextView textViewRecipeDescriptionCard;
+        private ImageView imageViewRecipeCard;
+
+        public RecipeHolder(@NonNull View itemView)
+        {
+            super(itemView);
+            //itemView is the card
+            textViewRecipeNameCard = itemView.findViewById(R.id.textViewRecipeNameCard);
+            textViewRecipeDescriptionCard = itemView.findViewById(R.id.textViewRecipeDescriptionCard);
+            imageViewRecipeCard = itemView.findViewById(R.id.imageViewRecipeCard);
+
+        }
+
+    }
+}

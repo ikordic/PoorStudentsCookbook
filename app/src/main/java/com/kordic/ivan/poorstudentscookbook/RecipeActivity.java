@@ -1,5 +1,6 @@
 package com.kordic.ivan.poorstudentscookbook;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -59,13 +60,15 @@ public class RecipeActivity extends AppCompatActivity
             {
                 String name = editTextRecipeName.getText().toString();
                 String description = editTextRecipeDescription.getText().toString();
+                String image = "";
 
                 if (name.isEmpty() || description.isEmpty())
                 {
                     Toast.makeText(RecipeActivity.this, "All fields must be filled!", Toast.LENGTH_SHORT).show();
+                    return;
                 }
 
-                Recipe recipe = new Recipe(name, description);
+                Recipe recipe = new Recipe(name, description, image);
                 recipeRef.set(recipe)
                         .addOnSuccessListener(new OnSuccessListener<Void>()
                         {
@@ -136,6 +139,17 @@ public class RecipeActivity extends AppCompatActivity
                 Toast.makeText(RecipeActivity.this, "Recipe deleted.", Toast.LENGTH_SHORT).show();
                 textViewRecipeName.setText("");
                 textViewRecipeDescription.setText("");
+            }
+        });
+
+        //Temporary switch activity
+        buttonDeleteRecipe.setOnLongClickListener(new View.OnLongClickListener()
+        {
+            @Override
+            public boolean onLongClick(View view)
+            {
+                startActivity(new Intent(RecipeActivity.this, RecipeCardViewActivity.class));
+                return false;
             }
         });
     }
