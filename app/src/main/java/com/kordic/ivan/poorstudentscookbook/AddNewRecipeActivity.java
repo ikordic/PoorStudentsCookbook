@@ -18,7 +18,7 @@ import com.kordic.ivan.poorstudentscookbook.Model.Recipe;
 public class AddNewRecipeActivity extends AppCompatActivity
 {
 
-    //16:00 -
+    //16:00 - 17:10
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference recipeRef = db.collection("Recipe");

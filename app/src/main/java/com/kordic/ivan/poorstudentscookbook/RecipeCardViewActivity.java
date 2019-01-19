@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.CollectionReference;
@@ -19,7 +18,6 @@ import com.kordic.ivan.poorstudentscookbook.Adapter.RecipeAdapter;
 import com.kordic.ivan.poorstudentscookbook.Model.Recipe;
 
 //12:00 - 15:35
-
 public class RecipeCardViewActivity extends AppCompatActivity
 {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -36,10 +34,7 @@ public class RecipeCardViewActivity extends AppCompatActivity
 
         this.buttonAddNewRecipe = findViewById(R.id.buttonAddNewRecipe);
 
-        /*
-        Intent i = new Intent(RecipeCardViewActivity.this, RegisterActivity.class);
-        startActivity(i);
-        */
+        //startActivity(new Intent(RecipeCardViewActivity.this, RegisterActivity.class));
 
         //Connecting the adapter and recyclerview
         setUpRecyclerView();
@@ -53,6 +48,7 @@ public class RecipeCardViewActivity extends AppCompatActivity
             }
         });
     }
+
     //Connecting the adapter and recyclerview
     private void setUpRecyclerView()
     {
