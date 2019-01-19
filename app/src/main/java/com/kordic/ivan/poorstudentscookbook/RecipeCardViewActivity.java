@@ -2,6 +2,7 @@ package com.kordic.ivan.poorstudentscookbook;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +13,7 @@ import android.widget.Button;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.kordic.ivan.poorstudentscookbook.Adapter.RecipeAdapter;
@@ -24,7 +26,7 @@ public class RecipeCardViewActivity extends AppCompatActivity
     private CollectionReference recipeRef = db.collection("Recipe");
 
     private RecipeAdapter adapter;
-    private Button buttonAddNewRecipe;
+    private FloatingActionButton buttonAddNewRecipe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -64,6 +66,7 @@ public class RecipeCardViewActivity extends AppCompatActivity
         recyclerViewRecipes.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewRecipes.setAdapter(adapter);
 
+        //Slide to call delete method
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT)
         {
             @Override
@@ -78,6 +81,16 @@ public class RecipeCardViewActivity extends AppCompatActivity
                 adapter.deleteItem(viewHolder.getAdapterPosition());
             }
         }).attachToRecyclerView(recyclerViewRecipes);
+
+        //Click to see recipe
+        adapter.setOnItemClickListener(new RecipeAdapter.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(DocumentSnapshot documentSnapshot, int position)
+            {
+                startActivity(new Intent(RecipeCardViewActivity.this, RecipeOverviewActivity.class).putExtra("RECIPE_ID",documentSnapshot.getId()));
+            }
+        });
     }
 
     @Override
