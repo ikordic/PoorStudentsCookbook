@@ -30,6 +30,12 @@ public class Recipe
         this.ingredients = new ArrayList<String>();
     }
 
+    public Recipe(String recipeName, String recipeDescription, String recipeImage) {
+        this.recipeName = recipeName;
+        this.recipeDescription = recipeDescription;
+        this.recipeImage = recipeImage;
+    }
+
     //Getters-Setters
     public String getRecipeName()
     {
