@@ -20,19 +20,38 @@
                 android:id="@+id/textViewNewRecipe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginRight="30dp"
+                android:layout_margin="30dp"
                 android:text="Add new recipe"
                 android:textAlignment="center"
                 android:textSize="30sp" />
+
+            <ImageView
+                android:id="@+id/imageViewNewRecipe"
+                android:layout_width="match_parent"
+                android:layout_height="230dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <TextView
+                android:id="@+id/textViewAddFromDevice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:text="Add image from device"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                android:clickable="true"/>
 
             <EditText
                 android:id="@+id/editTextNewRecipeName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginRight="30dp"
                 android:hint="Recipe name"
                 android:inputType="textEmailAddress"
@@ -49,7 +68,7 @@
                 android:inputType="textLongMessage"
                 android:padding="20dp"
                 android:textSize="18sp" />
-
+<!--
             <EditText
                 android:id="@+id/editTextNewRecipeImageUrl"
                 android:layout_width="match_parent"
@@ -61,7 +80,7 @@
                 android:padding="20dp"
                 android:textSize="18sp"
                 tools:ignore="TextFields" />
-
+-->
             <Button
                 android:id="@+id/buttonSaveNewRecipe"
                 android:layout_width="match_parent"
@@ -72,6 +91,7 @@
                 android:text="Save recipe"
                 android:textSize="16sp"
                 android:layout_marginBottom="30dp"/>
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
