@@ -1,62 +1,62 @@
 package com.kordic.ivan.poorstudentscookbook.Model;
 
-public class User
-{
+public class User {
 
-    private String userId;
-    private String userEmail;
-    private String userUsername;
-    private String userProfileImage;
+    private String name;
+    private String surname;
+    private String email;
+    private String password;
+    private String profileImage;
 
-    public User()
-    {
+
+    public User() {
     }
 
-    public User(String userId, String userEmail, String userUsername, String userProfileImage)
-    {
-        this.userId = userId;
-        this.userEmail = userEmail;
-        this.userUsername = userUsername;
-        this.userProfileImage = userProfileImage;
+    public User(String name, String surname, String email, String password, String profileImage) {
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.password = password;
+        this.profileImage = profileImage;
     }
 
-    public String getUserId()
-    {
-        return userId;
+    public String getName() {
+        return name;
     }
 
-    public void setUserId(String userId)
-    {
-        this.userId = userId;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getUserEmail()
-    {
-        return userEmail;
+    public String getSurname() {
+        return surname;
     }
 
-    public void setUserEmail(String userEmail)
-    {
-        this.userEmail = userEmail;
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
-    public String getUserUsername()
-    {
-        return userUsername;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUserUsername(String userUsername)
-    {
-        this.userUsername = userUsername;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getUserProfileImage()
-    {
-        return userProfileImage;
+    public String getPassword() {
+        return password;
     }
 
-    public void setUserProfileImage(String userProfileImage)
-    {
-        this.userProfileImage = userProfileImage;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
     }
 }
