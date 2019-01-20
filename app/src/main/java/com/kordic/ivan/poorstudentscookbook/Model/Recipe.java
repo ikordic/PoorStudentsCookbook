@@ -2,22 +2,32 @@ package com.kordic.ivan.poorstudentscookbook.Model;
 
 //Model class which stores data
 
+import java.util.ArrayList;
+
 public class Recipe
 {
     private String recipeName;
     private String recipeDescription;
     private String recipeImage;
+    private String creator;
+
+    private ArrayList<String> ingredients;
+
+
 
     //Constructors
     public Recipe()
     {
     }
 
-    public Recipe(String recipeName, String recipeDescription, String recipeImage)
+
+    public Recipe(String recipeName, String recipeDescription, String recipeImage, String creator, ArrayList ingredients)
     {
         this.recipeName = recipeName;
         this.recipeDescription = recipeDescription;
         this.recipeImage = recipeImage;
+        this.creator = creator;
+        this.ingredients = new ArrayList<String>();
     }
 
     //Getters-Setters
@@ -41,6 +51,17 @@ public class Recipe
         this.recipeDescription = recipeDescription;
     }
 
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
+    }
+
+    public ArrayList<String> getIngredients() {
+        return ingredients;
+    }
     public String getRecipeImage()
     {
         return recipeImage;
