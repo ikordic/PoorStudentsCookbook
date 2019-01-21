@@ -69,7 +69,7 @@ public class RegisterActivity extends AppCompatActivity
                 UIUtil.hideKeyboard(RegisterActivity.this);
 
                 //Crash prevention if fields are null
-                if (email.isEmpty() || password.isEmpty())
+                if (email.trim().isEmpty() || password.trim().isEmpty())
                 {
                     Toast.makeText(RegisterActivity.this, "Fill all fields.", Toast.LENGTH_SHORT).show();
                     return;
