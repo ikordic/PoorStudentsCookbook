@@ -68,19 +68,7 @@
                 android:inputType="textLongMessage"
                 android:padding="20dp"
                 android:textSize="18sp" />
-<!--
-            <EditText
-                android:id="@+id/editTextNewRecipeImageUrl"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:hint="Recipe image URL"
-                android:inputType="textLongMessage"
-                android:padding="20dp"
-                android:textSize="18sp"
-                tools:ignore="TextFields" />
--->
+
             <Button
                 android:id="@+id/buttonSaveNewRecipe"
                 android:layout_width="match_parent"

@@ -1,5 +1,6 @@
 package com.kordic.ivan.poorstudentscookbook;
 
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
@@ -8,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -49,11 +51,17 @@ public class AddNewRecipeActivity extends AppCompatActivity
     private Button buttonSaveNewRecipe;
     private ImageView imageViewNewRecipe;
     private TextView textViewAddFromDevice;
+    private ProgressBar progressBar;
+
+    ViewGroup progressView;
+    protected boolean isProgressShowing = false;
 
     //Constant for image selection
     private static final int PICK_IMAGE_REQUEST = 1;
     //URI which points to image for the imageview
     private Uri recipeImageUri;
+
+    private Task recipeUploadTask;
 
     //Global variables with default values
     String newRecipeName;
@@ -76,6 +84,7 @@ public class AddNewRecipeActivity extends AppCompatActivity
         this.buttonSaveNewRecipe = findViewById(R.id.buttonSaveNewRecipe);
         this.imageViewNewRecipe = findViewById(R.id.imageViewNewRecipe);
         this.textViewAddFromDevice = findViewById(R.id.textViewAddFromDevice);
+        this.progressBar = findViewById(R.id.progressBar);
 
         textViewAddFromDevice.setOnClickListener(new View.OnClickListener()
         {
@@ -103,9 +112,29 @@ public class AddNewRecipeActivity extends AppCompatActivity
                     return;
                 }
 
-                uploadFile();
+                    uploadFile();
+
             }
         });
+    }
+
+    //ProgressBar
+    public void showProgressingView() {
+
+        if (!isProgressShowing) {
+            isProgressShowing = true;
+            progressView = (ViewGroup) getLayoutInflater().inflate(R.layout.progressbar_layout, null);
+            View v = this.findViewById(android.R.id.content).getRootView();
+            ViewGroup viewGroup = (ViewGroup) v;
+            viewGroup.addView(progressView);
+        }
+    }
+
+    public void hideProgressingView() {
+        View v = this.findViewById(android.R.id.content).getRootView();
+        ViewGroup viewGroup = (ViewGroup) v;
+        viewGroup.removeView(progressView);
+        isProgressShowing = false;
     }
 
     //Loads image into imageView after selection
@@ -132,12 +161,16 @@ public class AddNewRecipeActivity extends AppCompatActivity
     //Uploads all data and fetches the firebase storage image url
     private void uploadFile()
     {
+        //Anti-button-spam method
+        buttonSaveNewRecipe.setClickable(false);
+        showProgressingView();
+
         if (recipeImageUri != null)
         {
             final StorageReference fileReference = recipeStorageRef.child(System.currentTimeMillis()
                     + "." + getFileExtension(recipeImageUri));
 
-            fileReference.putFile(recipeImageUri).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>()
+            recipeUploadTask = fileReference.putFile(recipeImageUri).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>()
             {
                 @Override
                 public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception
