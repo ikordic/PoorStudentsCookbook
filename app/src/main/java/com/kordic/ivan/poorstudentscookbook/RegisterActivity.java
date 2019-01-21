@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import net.yslibrary.android.keyboardvisibilityevent.util.UIUtil;
+
 //12:50 - 15:10 = 140min
 public class RegisterActivity extends AppCompatActivity
 {
@@ -39,9 +40,11 @@ public class RegisterActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        //startActivity(new Intent(RegisterActivity.this, RecipeActivity.class));
+
         //keep the keyboard down
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        //startActivity(new Intent(RegisterActivity.this, RecipeActivity.class));
+
         //FirebaseAuth initialization
         userAuth = FirebaseAuth.getInstance();
 
@@ -66,7 +69,7 @@ public class RegisterActivity extends AppCompatActivity
                 UIUtil.hideKeyboard(RegisterActivity.this);
 
                 //Crash prevention if fields are null
-                if (email.isEmpty() || password.isEmpty())
+                if (email.trim().isEmpty() || password.trim().isEmpty())
                 {
                     Toast.makeText(RegisterActivity.this, "Fill all fields.", Toast.LENGTH_SHORT).show();
                     return;

@@ -12,7 +12,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RecipeOverviewActivity"></activity>
+        <activity android:name=".LoginActivity"></activity>
+
+        <activity
+            android:name=".RecipeOverviewActivity"
+            android:parentActivityName="com.kordic.ivan.poorstudentscookbook.RecipeCardViewActivity" />
+        <!-- Parent activity meta-data to support 4.0 and lower -->
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.kordic.ivan.poorstudentscookbook.RecipeCardViewActivity" />
+
         <activity android:name=".AddNewRecipeActivity" />
         <activity android:name=".RecipeActivity" />
         <activity android:name=".RegisterActivity" />
