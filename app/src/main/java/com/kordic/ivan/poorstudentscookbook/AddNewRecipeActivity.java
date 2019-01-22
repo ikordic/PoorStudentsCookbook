@@ -226,13 +226,75 @@ public class AddNewRecipeActivity extends AppCompatActivity
             UIUtil.hideKeyboard(AddNewRecipeActivity.this);
             showProgressingView();
 
-            recipeRef.document(recipeId).update("recipeName", newRecipeName);
-            recipeRef.document(recipeId).update("recipeDescription", newRecipeDescription);
+            if (recipeImageUri != null)
+            {
+                final StorageReference fileReference = recipeStorageRef.child(System.currentTimeMillis()
+                        + "." + getFileExtension(recipeImageUri));
 
-            Toast.makeText(this, "Recipe updated!", Toast.LENGTH_SHORT).show();
-            recipeId = null;
-            finish();
+                recipeUploadTask = fileReference.putFile(recipeImageUri).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>()
+                {
+                    @Override
+                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception
+                    {
+                        if (!task.isSuccessful())
+                        {
+                            throw Objects.requireNonNull(task.getException());
+                        }
+                        return fileReference.getDownloadUrl();
+                    }
+                }).addOnCompleteListener(new OnCompleteListener<Uri>()
+                {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task)
+                    {
+                        if (task.isSuccessful())
+                        {
+                            recipeRef.document(recipeId).update("recipeName", newRecipeName);
+                            recipeRef.document(recipeId).update("recipeDescription", newRecipeDescription);
+                            recipeRef.document(recipeId).update("recipeImage",Objects.requireNonNull(task.getResult()).toString());
+
+                            Toast.makeText(AddNewRecipeActivity.this, "Recipe updated!", Toast.LENGTH_SHORT).show();
+                            recipeId = null;
+                            finish();
+                        }
+                        else
+                        {
+                            Toast.makeText(AddNewRecipeActivity.this, "Task failed.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener()
+                {
+                    @Override
+                    public void onFailure(@NonNull Exception e)
+                    {
+                        Toast.makeText(AddNewRecipeActivity.this, "putFile() doesn't work", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+            else
+            {
+                recipeRef
+                        .add(new Recipe(newRecipeName, newRecipeDescription, newRecipeImageUrl))
+                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>()
+                        {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference)
+                            {
+                                Toast.makeText(AddNewRecipeActivity.this, "Recipe added!", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener()
+                        {
+                            @Override
+                            public void onFailure(@NonNull Exception e)
+                            {
+                                Toast.makeText(AddNewRecipeActivity.this, "Error: " + e, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
         }
+
         //Create new recipe
         else
         {
@@ -264,9 +326,6 @@ public class AddNewRecipeActivity extends AppCompatActivity
                     {
                         if (task.isSuccessful())
                         {
-                            Uri downUri = task.getResult();
-                            newRecipeImageUrl = String.valueOf(downUri);
-
                             recipeRef
                                     .add(new Recipe(newRecipeName, newRecipeDescription, Objects.requireNonNull(task.getResult()).toString()))
                                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>()
