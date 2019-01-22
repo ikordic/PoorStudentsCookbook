@@ -24,6 +24,8 @@ public class RecipeOverviewActivity extends AppCompatActivity
     private TextView textViewRecipeOverviewName;
     private TextView textViewRecipeOverviewDescription;    
     private ImageView imageViewRecipeOverview;
+
+    String recipeId = "";
     
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -35,7 +37,6 @@ public class RecipeOverviewActivity extends AppCompatActivity
         this.textViewRecipeOverviewDescription = findViewById(R.id.textViewRecipeOverviewDescription);
         this.imageViewRecipeOverview = findViewById(R.id.imageViewRecipeOverview);
 
-        String recipeId = "";
         //why saved instance?
         if(savedInstanceState == null)
         {
@@ -82,5 +83,7 @@ public class RecipeOverviewActivity extends AppCompatActivity
                         Toast.makeText(RecipeOverviewActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+
+
     }
 }

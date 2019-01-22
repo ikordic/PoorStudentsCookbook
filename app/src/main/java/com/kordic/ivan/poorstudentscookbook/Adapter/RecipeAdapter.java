@@ -20,7 +20,9 @@ import com.kordic.ivan.poorstudentscookbook.R;
 
 public class RecipeAdapter extends FirestoreRecyclerAdapter<Recipe, RecipeAdapter.RecipeHolder>
 {
-    private OnItemClickListener listener;
+    private OnItemClickListener mListener;
+
+    private OnItemLongClickListener lListener;
 
     public RecipeAdapter(@NonNull FirestoreRecyclerOptions<Recipe> options)
     {
@@ -69,14 +71,28 @@ public class RecipeAdapter extends FirestoreRecyclerAdapter<Recipe, RecipeAdapte
                 public void onClick(View view)
                 {
                     int position = getAdapterPosition();
-                    if(position != RecyclerView.NO_POSITION && listener != null)
+                    if (position != RecyclerView.NO_POSITION && mListener != null)
                     {
-                        listener.onItemClick(getSnapshots().getSnapshot(position), position);
+                        mListener.onItemClick(getSnapshots().getSnapshot(position), position);
                     }
                 }
             });
-        }
 
+            itemView.setOnLongClickListener(new View.OnLongClickListener()
+            {
+                @Override
+                public boolean onLongClick(View view)
+                {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION && mListener != null)
+                    {
+                        lListener.onItemLongClick(getSnapshots().getSnapshot(position), position);
+                    }
+                    return false;
+                }
+            });
+
+        }
     }
 
     //Deleting recipe
@@ -90,9 +106,21 @@ public class RecipeAdapter extends FirestoreRecyclerAdapter<Recipe, RecipeAdapte
     {
         void onItemClick(DocumentSnapshot documentSnapshot, int position);
     }
+
     public void setOnItemClickListener(OnItemClickListener listener)
     {
-        this.listener = listener;
+        this.mListener = listener;
     }
 
+    //Long click interface
+
+    public interface OnItemLongClickListener
+    {
+        void onItemLongClick(DocumentSnapshot documentSnapshot, int position);
+    }
+
+    public void setOnItemClickListener(OnItemLongClickListener listener)
+    {
+        this.lListener = listener;
+    }
 }

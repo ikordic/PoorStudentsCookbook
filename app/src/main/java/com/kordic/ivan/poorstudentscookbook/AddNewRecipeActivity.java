@@ -1,6 +1,5 @@
 package com.kordic.ivan.poorstudentscookbook;
 
-import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
@@ -20,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -27,13 +27,17 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
+import com.google.protobuf.Empty;
+import com.kordic.ivan.poorstudentscookbook.Adapter.RecipeAdapter;
 import com.kordic.ivan.poorstudentscookbook.Model.Recipe;
+
+import net.yslibrary.android.keyboardvisibilityevent.util.UIUtil;
 
 import java.util.Objects;
 
@@ -63,6 +67,11 @@ public class AddNewRecipeActivity extends AppCompatActivity
 
     private Task recipeUploadTask;
 
+    //***
+    String recipeId;
+    private RecipeAdapter adapter;
+    Boolean editRecipe = false;
+
     //Global variables with default values
     String newRecipeName;
     String newRecipeDescription;
@@ -85,6 +94,59 @@ public class AddNewRecipeActivity extends AppCompatActivity
         this.imageViewNewRecipe = findViewById(R.id.imageViewNewRecipe);
         this.textViewAddFromDevice = findViewById(R.id.textViewAddFromDevice);
         this.progressBar = findViewById(R.id.progressBar);
+
+        //Getting recipeId from RecipeCardViewActivity-startActivity
+        if (savedInstanceState == null)
+        {
+            Bundle extras = getIntent().getExtras();
+            if (extras == null)
+            {
+                recipeId = "Empty";
+            }
+            else
+            {
+                recipeId = extras.getString("RECIPE_ID");
+                editRecipe = true;
+            }
+        }
+        else
+        {
+            recipeId = (String) savedInstanceState.getSerializable("RECIPE_ID");
+            editRecipe = true;
+        }
+
+        if (recipeId.isEmpty())
+        {
+            Toast.makeText(this, "Critical error!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        else
+        {
+            recipeRef.document(recipeId).get()
+                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>()
+                    {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot)
+                        {
+                            if (documentSnapshot.exists())
+                            {
+                                Recipe recipe = documentSnapshot.toObject(Recipe.class);
+                                editTextNewRecipeName.setText(recipe.getRecipeName());
+                                editTextNewRecipeDescription.setText(recipe.getRecipeDescription());
+                                Glide.with(AddNewRecipeActivity.this).load(recipe.getRecipeImage()).into(imageViewNewRecipe);
+                            }
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener()
+                    {
+                        @Override
+                        public void onFailure(@NonNull Exception e)
+                        {
+                            Toast.makeText(AddNewRecipeActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+        }
 
         textViewAddFromDevice.setOnClickListener(new View.OnClickListener()
         {
@@ -112,29 +174,24 @@ public class AddNewRecipeActivity extends AppCompatActivity
                     return;
                 }
 
-                    uploadFile();
+                uploadFile();
 
             }
         });
     }
 
     //ProgressBar
-    public void showProgressingView() {
+    public void showProgressingView()
+    {
 
-        if (!isProgressShowing) {
+        if (!isProgressShowing)
+        {
             isProgressShowing = true;
             progressView = (ViewGroup) getLayoutInflater().inflate(R.layout.progressbar_layout, null);
             View v = this.findViewById(android.R.id.content).getRootView();
             ViewGroup viewGroup = (ViewGroup) v;
             viewGroup.addView(progressView);
         }
-    }
-
-    public void hideProgressingView() {
-        View v = this.findViewById(android.R.id.content).getRootView();
-        ViewGroup viewGroup = (ViewGroup) v;
-        viewGroup.removeView(progressView);
-        isProgressShowing = false;
     }
 
     //Loads image into imageView after selection
@@ -158,94 +215,114 @@ public class AddNewRecipeActivity extends AppCompatActivity
         return mime.getExtensionFromMimeType(cR.getType(uri));
     }
 
-    //Uploads all data and fetches the firebase storage image url
+    //Uploads all data and fetches the Firebase storage image url
     private void uploadFile()
     {
-        //Anti-button-spam method
-        buttonSaveNewRecipe.setClickable(false);
-        showProgressingView();
-
-        if (recipeImageUri != null)
+        //Edit existing recipe
+        if (editRecipe)
         {
-            final StorageReference fileReference = recipeStorageRef.child(System.currentTimeMillis()
-                    + "." + getFileExtension(recipeImageUri));
+            //Anti-button-spam method
+            buttonSaveNewRecipe.setClickable(false);
+            UIUtil.hideKeyboard(AddNewRecipeActivity.this);
+            showProgressingView();
 
-            recipeUploadTask = fileReference.putFile(recipeImageUri).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>()
-            {
-                @Override
-                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception
-                {
-                    if (!task.isSuccessful())
-                    {
-                        throw Objects.requireNonNull(task.getException());
-                    }
-                    return fileReference.getDownloadUrl();
-                }
-            }).addOnCompleteListener(new OnCompleteListener<Uri>()
-            {
-                @Override
-                public void onComplete(@NonNull Task<Uri> task)
-                {
-                    if (task.isSuccessful())
-                    {
-                        Uri downUri = task.getResult();
-                        newRecipeImageUrl = String.valueOf(downUri);
+            recipeRef.document(recipeId).update("recipeName", newRecipeName);
+            recipeRef.document(recipeId).update("recipeDescription", newRecipeDescription);
 
-                        recipeRef
-                                .add(new Recipe(newRecipeName, newRecipeDescription, Objects.requireNonNull(task.getResult()).toString()))
-                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>()
-                                {
-                                    @Override
-                                    public void onSuccess(DocumentReference documentReference)
-                                    {
-                                        Toast.makeText(AddNewRecipeActivity.this, "Recipe added!", Toast.LENGTH_SHORT).show();
-                                        finish();
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener()
-                                {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e)
-                                    {
-                                        Toast.makeText(AddNewRecipeActivity.this, "Error: " + e, Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                    }
-                    else
-                    {
-                        Toast.makeText(AddNewRecipeActivity.this, "Task failed.", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }).addOnFailureListener(new OnFailureListener()
-            {
-                @Override
-                public void onFailure(@NonNull Exception e)
-                {
-                    Toast.makeText(AddNewRecipeActivity.this, "putFile() doesn't work", Toast.LENGTH_SHORT).show();
-                }
-            });
+            Toast.makeText(this, "Recipe updated!", Toast.LENGTH_SHORT).show();
+            recipeId = null;
+            finish();
         }
+        //Create new recipe
         else
         {
-            recipeRef
-                    .add(new Recipe(newRecipeName, newRecipeDescription, newRecipeImageUrl))
-                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>()
+            //Anti-button-spam method
+            buttonSaveNewRecipe.setClickable(false);
+            UIUtil.hideKeyboard(AddNewRecipeActivity.this);
+            showProgressingView();
+
+            if (recipeImageUri != null)
+            {
+                final StorageReference fileReference = recipeStorageRef.child(System.currentTimeMillis()
+                        + "." + getFileExtension(recipeImageUri));
+
+                recipeUploadTask = fileReference.putFile(recipeImageUri).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>()
+                {
+                    @Override
+                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception
                     {
-                        @Override
-                        public void onSuccess(DocumentReference documentReference)
+                        if (!task.isSuccessful())
                         {
-                            Toast.makeText(AddNewRecipeActivity.this, "Recipe added!", Toast.LENGTH_SHORT).show();
-                            finish();
+                            throw Objects.requireNonNull(task.getException());
                         }
-                    })
-                    .addOnFailureListener(new OnFailureListener()
+                        return fileReference.getDownloadUrl();
+                    }
+                }).addOnCompleteListener(new OnCompleteListener<Uri>()
+                {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task)
                     {
-                        @Override
-                        public void onFailure(@NonNull Exception e)
+                        if (task.isSuccessful())
                         {
-                            Toast.makeText(AddNewRecipeActivity.this, "Error: " + e, Toast.LENGTH_SHORT).show();
+                            Uri downUri = task.getResult();
+                            newRecipeImageUrl = String.valueOf(downUri);
+
+                            recipeRef
+                                    .add(new Recipe(newRecipeName, newRecipeDescription, Objects.requireNonNull(task.getResult()).toString()))
+                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>()
+                                    {
+                                        @Override
+                                        public void onSuccess(DocumentReference documentReference)
+                                        {
+                                            Toast.makeText(AddNewRecipeActivity.this, "Recipe added!", Toast.LENGTH_SHORT).show();
+                                            finish();
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener()
+                                    {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e)
+                                        {
+                                            Toast.makeText(AddNewRecipeActivity.this, "Error: " + e, Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
                         }
-                    });
+                        else
+                        {
+                            Toast.makeText(AddNewRecipeActivity.this, "Task failed.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener()
+                {
+                    @Override
+                    public void onFailure(@NonNull Exception e)
+                    {
+                        Toast.makeText(AddNewRecipeActivity.this, "putFile() doesn't work", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+            else
+            {
+                recipeRef
+                        .add(new Recipe(newRecipeName, newRecipeDescription, newRecipeImageUrl))
+                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>()
+                        {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference)
+                            {
+                                Toast.makeText(AddNewRecipeActivity.this, "Recipe added!", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener()
+                        {
+                            @Override
+                            public void onFailure(@NonNull Exception e)
+                            {
+                                Toast.makeText(AddNewRecipeActivity.this, "Error: " + e, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
         }
     }
 }
