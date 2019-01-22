@@ -20,7 +20,7 @@ import com.kordic.ivan.poorstudentscookbook.R;
 
 public class RecipeAdapter extends FirestoreRecyclerAdapter<Recipe, RecipeAdapter.RecipeHolder>
 {
-    private OnItemClickListener listener;
+    private OnItemClickListener mListener;
 
     public RecipeAdapter(@NonNull FirestoreRecyclerOptions<Recipe> options)
     {
@@ -69,14 +69,13 @@ public class RecipeAdapter extends FirestoreRecyclerAdapter<Recipe, RecipeAdapte
                 public void onClick(View view)
                 {
                     int position = getAdapterPosition();
-                    if(position != RecyclerView.NO_POSITION && listener != null)
+                    if(position != RecyclerView.NO_POSITION && mListener != null)
                     {
-                        listener.onItemClick(getSnapshots().getSnapshot(position), position);
+                        mListener.onItemClick(getSnapshots().getSnapshot(position), position);
                     }
                 }
             });
         }
-
     }
 
     //Deleting recipe
@@ -92,7 +91,8 @@ public class RecipeAdapter extends FirestoreRecyclerAdapter<Recipe, RecipeAdapte
     }
     public void setOnItemClickListener(OnItemClickListener listener)
     {
-        this.listener = listener;
+        this.mListener = listener;
     }
+
 
 }
