@@ -22,6 +22,8 @@ public class RecipeAdapter extends FirestoreRecyclerAdapter<Recipe, RecipeAdapte
 {
     private OnItemClickListener mListener;
 
+    private OnItemLongClickListener lListener;
+
     public RecipeAdapter(@NonNull FirestoreRecyclerOptions<Recipe> options)
     {
         super(options);
@@ -69,12 +71,27 @@ public class RecipeAdapter extends FirestoreRecyclerAdapter<Recipe, RecipeAdapte
                 public void onClick(View view)
                 {
                     int position = getAdapterPosition();
-                    if(position != RecyclerView.NO_POSITION && mListener != null)
+                    if (position != RecyclerView.NO_POSITION && mListener != null)
                     {
                         mListener.onItemClick(getSnapshots().getSnapshot(position), position);
                     }
                 }
             });
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener()
+            {
+                @Override
+                public boolean onLongClick(View view)
+                {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION && mListener != null)
+                    {
+                        lListener.onItemLongClick(getSnapshots().getSnapshot(position), position);
+                    }
+                    return false;
+                }
+            });
+
         }
     }
 
@@ -89,10 +106,21 @@ public class RecipeAdapter extends FirestoreRecyclerAdapter<Recipe, RecipeAdapte
     {
         void onItemClick(DocumentSnapshot documentSnapshot, int position);
     }
+
     public void setOnItemClickListener(OnItemClickListener listener)
     {
         this.mListener = listener;
     }
 
+    //Long click interface
 
+    public interface OnItemLongClickListener
+    {
+        void onItemLongClick(DocumentSnapshot documentSnapshot, int position);
+    }
+
+    public void setOnItemClickListener(OnItemLongClickListener listener)
+    {
+        this.lListener = listener;
+    }
 }

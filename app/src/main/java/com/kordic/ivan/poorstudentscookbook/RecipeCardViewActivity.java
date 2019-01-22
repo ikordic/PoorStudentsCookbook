@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
+import android.widget.Toast;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.CollectionReference;
@@ -88,7 +89,17 @@ public class RecipeCardViewActivity extends AppCompatActivity
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position)
             {
-                startActivity(new Intent(RecipeCardViewActivity.this, RecipeOverviewActivity.class).putExtra("RECIPE_ID",documentSnapshot.getId()));
+                startActivity(new Intent(RecipeCardViewActivity.this, RecipeOverviewActivity.class).putExtra("RECIPE_ID", documentSnapshot.getId()));
+            }
+        });
+
+        //Long click to update
+        adapter.setOnItemClickListener(new RecipeAdapter.OnItemLongClickListener()
+        {
+            @Override
+            public void onItemLongClick(DocumentSnapshot documentSnapshot, int position)
+            {
+                startActivity(new Intent(RecipeCardViewActivity.this, AddNewRecipeActivity.class).putExtra("RECIPE_ID", documentSnapshot.getId()));
             }
         });
     }
