@@ -9,8 +9,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
-import android.widget.Toast;
-
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -35,8 +33,6 @@ public class RecipeCardViewActivity extends AppCompatActivity
         setContentView(R.layout.activity_recipe_card_view);
 
         this.buttonAddNewRecipe = findViewById(R.id.buttonAddNewRecipe);
-
-        //startActivity(new Intent(RecipeCardViewActivity.this, RegisterActivity.class));
 
         //Connecting the adapter and recyclerview
         setUpRecyclerView();
