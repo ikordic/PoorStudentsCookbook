@@ -20,7 +20,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -228,12 +227,11 @@ public class RegisterActivity extends AppCompatActivity
                             {
                                 Toast.makeText(RegisterActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
 
-                                //Add username and user id to database
-                                userRef.add(new User(userAuth.getUid(), "", "", Objects.requireNonNull(userAuth.getCurrentUser()).getEmail(), username, ""))
-                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>()
+                                userRef.document(Objects.requireNonNull(userAuth.getUid())).set(new User(userAuth.getUid(), Objects.requireNonNull(userAuth.getCurrentUser()).getEmail(), username, ""))
+                                        .addOnSuccessListener(new OnSuccessListener<Void>()
                                         {
                                             @Override
-                                            public void onSuccess(DocumentReference documentReference)
+                                            public void onSuccess(Void aVoid)
                                             {
                                                 startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                                                 finish();

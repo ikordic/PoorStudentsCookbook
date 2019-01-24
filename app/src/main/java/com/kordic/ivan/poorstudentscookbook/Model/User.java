@@ -4,8 +4,6 @@ public class User
 {
 
     private String userId;
-    private String userName;
-    private String userSurname;
     private String userEmail;
     private String userUsername;
     private String userProfileImage;
@@ -14,11 +12,9 @@ public class User
     {
     }
 
-    public User(String userId, String userName, String userSurname, String userEmail, String userUsername, String userProfileImage)
+    public User(String userId, String userEmail, String userUsername, String userProfileImage)
     {
         this.userId = userId;
-        this.userName = userName;
-        this.userSurname = userSurname;
         this.userEmail = userEmail;
         this.userUsername = userUsername;
         this.userProfileImage = userProfileImage;
@@ -32,26 +28,6 @@ public class User
     public void setUserId(String userId)
     {
         this.userId = userId;
-    }
-
-    public String getUserName()
-    {
-        return userName;
-    }
-
-    public void setUserName(String userName)
-    {
-        this.userName = userName;
-    }
-
-    public String getUserSurname()
-    {
-        return userSurname;
-    }
-
-    public void setUserSurname(String userSurname)
-    {
-        this.userSurname = userSurname;
     }
 
     public String getUserEmail()
