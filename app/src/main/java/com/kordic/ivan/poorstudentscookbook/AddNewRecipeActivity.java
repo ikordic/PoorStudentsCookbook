@@ -25,6 +25,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -43,10 +44,8 @@ import java.util.Objects;
 
 public class AddNewRecipeActivity extends AppCompatActivity
 {
-    //17:00 - 01:00
-
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-
+    private FirebaseAuth userAuth = FirebaseAuth.getInstance();
     private CollectionReference recipeRef = db.collection("Recipe");
     private StorageReference recipeStorageRef;
 
@@ -62,14 +61,13 @@ public class AddNewRecipeActivity extends AppCompatActivity
 
     //Constant for image selection
     private static final int PICK_IMAGE_REQUEST = 1;
+
     //URI which points to image for the imageview
     private Uri recipeImageUri;
 
     private Task recipeUploadTask;
 
-    //***
     String recipeId;
-    private RecipeAdapter adapter;
     Boolean editRecipe = false;
 
     //Global variables with default values
@@ -133,6 +131,7 @@ public class AddNewRecipeActivity extends AppCompatActivity
                                 Recipe recipe = documentSnapshot.toObject(Recipe.class);
                                 editTextNewRecipeName.setText(recipe.getRecipeName());
                                 editTextNewRecipeDescription.setText(recipe.getRecipeDescription());
+                                newRecipeImageUrl = recipe.getRecipeImage();
                                 Glide.with(AddNewRecipeActivity.this).load(recipe.getRecipeImage()).into(imageViewNewRecipe);
                             }
                         }
@@ -271,27 +270,17 @@ public class AddNewRecipeActivity extends AppCompatActivity
                     }
                 });
             }
+
+            //If the image hasn't been changed
             else
             {
-                recipeRef
-                        .add(new Recipe(newRecipeName, newRecipeDescription, newRecipeImageUrl))
-                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>()
-                        {
-                            @Override
-                            public void onSuccess(DocumentReference documentReference)
-                            {
-                                Toast.makeText(AddNewRecipeActivity.this, "Recipe added!", Toast.LENGTH_SHORT).show();
-                                finish();
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener()
-                        {
-                            @Override
-                            public void onFailure(@NonNull Exception e)
-                            {
-                                Toast.makeText(AddNewRecipeActivity.this, "Error: " + e, Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                recipeRef.document(recipeId).update("recipeName", newRecipeName);
+                recipeRef.document(recipeId).update("recipeDescription", newRecipeDescription);
+                recipeRef.document(recipeId).update("recipeImage", newRecipeImageUrl);
+
+                Toast.makeText(AddNewRecipeActivity.this, "Recipe updated!", Toast.LENGTH_SHORT).show();
+                recipeId = null;
+                finish();
             }
         }
 
@@ -327,7 +316,7 @@ public class AddNewRecipeActivity extends AppCompatActivity
                         if (task.isSuccessful())
                         {
                             recipeRef
-                                    .add(new Recipe(newRecipeName, newRecipeDescription, Objects.requireNonNull(task.getResult()).toString()))
+                                    .add(new Recipe(newRecipeName, newRecipeDescription, Objects.requireNonNull(task.getResult()).toString(), userAuth.getUid()))
                                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>()
                                     {
                                         @Override
@@ -363,7 +352,7 @@ public class AddNewRecipeActivity extends AppCompatActivity
             else
             {
                 recipeRef
-                        .add(new Recipe(newRecipeName, newRecipeDescription, newRecipeImageUrl))
+                        .add(new Recipe(newRecipeName, newRecipeDescription, newRecipeImageUrl, userAuth.getUid()))
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>()
                         {
                             @Override
@@ -385,4 +374,3 @@ public class AddNewRecipeActivity extends AppCompatActivity
         }
     }
 }
-
