@@ -34,6 +34,7 @@ public class RecipeOverviewActivity extends AppCompatActivity
     private TextView textViewRecipeOverviewName;
     private TextView textViewRecipeOverviewDescription;    
     private ImageView imageViewRecipeOverview;
+    private TextView textViewRecipeOverviewBy;
 
     String recipeId = "";
     
@@ -46,8 +47,8 @@ public class RecipeOverviewActivity extends AppCompatActivity
         this.textViewRecipeOverviewName = findViewById(R.id.textViewRecipeOverviewName);
         this.textViewRecipeOverviewDescription = findViewById(R.id.textViewRecipeOverviewDescription);
         this.imageViewRecipeOverview = findViewById(R.id.imageViewRecipeOverview);
+        this.textViewRecipeOverviewBy = findViewById(R.id.textViewRecipeOverviewBy);
 
-        //why saved instance?
         if(savedInstanceState == null)
         {
             Bundle extras = getIntent().getExtras();
@@ -79,8 +80,10 @@ public class RecipeOverviewActivity extends AppCompatActivity
                         if(documentSnapshot.exists())
                         {
                             Recipe recipe = documentSnapshot.toObject(Recipe.class);
+                            assert recipe != null;
                             textViewRecipeOverviewName.setText(recipe.getRecipeName());
                             textViewRecipeOverviewDescription.setText(recipe.getRecipeDescription());
+                            textViewRecipeOverviewBy.setText("by: " + recipe.getRecipeAuthorUsername());
                             Glide.with(RecipeOverviewActivity.this).load(recipe.getRecipeImage()).into(imageViewRecipeOverview);
                         }
                     }
@@ -93,7 +96,5 @@ public class RecipeOverviewActivity extends AppCompatActivity
                         Toast.makeText(RecipeOverviewActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
-
-
     }
 }

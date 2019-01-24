@@ -1,6 +1,8 @@
 package com.kordic.ivan.poorstudentscookbook;
 
 import android.content.Intent;
+import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,7 +12,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,7 +22,6 @@ import com.google.firebase.firestore.Query;
 import com.kordic.ivan.poorstudentscookbook.Adapter.RecipeAdapter;
 import com.kordic.ivan.poorstudentscookbook.Model.Recipe;
 
-//12:00 - 15:35
 public class RecipeCardViewActivity extends AppCompatActivity
 {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -30,6 +30,8 @@ public class RecipeCardViewActivity extends AppCompatActivity
 
     private RecipeAdapter adapter;
     private FloatingActionButton buttonAddNewRecipe;
+    private RecyclerView recyclerViewRecipes;
+    private int positionIndex = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -39,7 +41,7 @@ public class RecipeCardViewActivity extends AppCompatActivity
 
         this.buttonAddNewRecipe = findViewById(R.id.buttonAddNewRecipe);
 
-        //Connecting the adapter and recyclerview
+        //Connecting the adapter and Recyclerview
         setUpRecyclerView();
 
         if(userAuth.getCurrentUser() == null)
@@ -115,8 +117,7 @@ public class RecipeCardViewActivity extends AppCompatActivity
                 .setQuery(query, Recipe.class)
                 .build();
         adapter = new RecipeAdapter(options);
-
-        RecyclerView recyclerViewRecipes = findViewById(R.id.recyclerViewRecipes);
+        recyclerViewRecipes = findViewById(R.id.recyclerViewRecipes);
         recyclerViewRecipes.setHasFixedSize(true);
         recyclerViewRecipes.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewRecipes.setAdapter(adapter);
@@ -127,6 +128,7 @@ public class RecipeCardViewActivity extends AppCompatActivity
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position)
             {
+                positionIndex = position;
                 startActivity(new Intent(RecipeCardViewActivity.this, RecipeOverviewActivity.class).putExtra("RECIPE_ID", documentSnapshot.getId()));
             }
         });

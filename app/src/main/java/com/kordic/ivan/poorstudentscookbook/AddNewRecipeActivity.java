@@ -31,12 +31,15 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.google.protobuf.Empty;
 import com.kordic.ivan.poorstudentscookbook.Adapter.RecipeAdapter;
 import com.kordic.ivan.poorstudentscookbook.Model.Recipe;
+import com.kordic.ivan.poorstudentscookbook.Model.User;
 
 import net.yslibrary.android.keyboardvisibilityevent.util.UIUtil;
 
@@ -47,6 +50,7 @@ public class AddNewRecipeActivity extends AppCompatActivity
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseAuth userAuth = FirebaseAuth.getInstance();
     private CollectionReference recipeRef = db.collection("Recipe");
+    private CollectionReference userRef = db.collection("User");
     private StorageReference recipeStorageRef;
 
     private EditText editTextNewRecipeName;
@@ -68,6 +72,7 @@ public class AddNewRecipeActivity extends AppCompatActivity
     private Task recipeUploadTask;
 
     String recipeId;
+    String username;
     Boolean editRecipe = false;
 
     //Global variables with default values
@@ -113,6 +118,7 @@ public class AddNewRecipeActivity extends AppCompatActivity
             editRecipe = true;
         }
 
+        assert recipeId != null;
         if (recipeId.isEmpty())
         {
             Toast.makeText(this, "Critical error!", Toast.LENGTH_SHORT).show();
@@ -129,6 +135,7 @@ public class AddNewRecipeActivity extends AppCompatActivity
                             if (documentSnapshot.exists())
                             {
                                 Recipe recipe = documentSnapshot.toObject(Recipe.class);
+                                assert recipe != null;
                                 editTextNewRecipeName.setText(recipe.getRecipeName());
                                 editTextNewRecipeDescription.setText(recipe.getRecipeDescription());
                                 newRecipeImageUrl = recipe.getRecipeImage();
@@ -162,8 +169,6 @@ public class AddNewRecipeActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                //if task running check**
-
                 newRecipeName = editTextNewRecipeName.getText().toString();
                 newRecipeDescription = editTextNewRecipeDescription.getText().toString();
 
@@ -172,9 +177,7 @@ public class AddNewRecipeActivity extends AppCompatActivity
                     Toast.makeText(AddNewRecipeActivity.this, "Fill all text fields", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
                 uploadFile();
-
             }
         });
     }
@@ -292,6 +295,7 @@ public class AddNewRecipeActivity extends AppCompatActivity
             UIUtil.hideKeyboard(AddNewRecipeActivity.this);
             showProgressingView();
 
+
             if (recipeImageUri != null)
             {
                 final StorageReference fileReference = recipeStorageRef.child(System.currentTimeMillis()
@@ -311,19 +315,38 @@ public class AddNewRecipeActivity extends AppCompatActivity
                 }).addOnCompleteListener(new OnCompleteListener<Uri>()
                 {
                     @Override
-                    public void onComplete(@NonNull Task<Uri> task)
+                    public void onComplete(@NonNull final Task<Uri> task)
                     {
                         if (task.isSuccessful())
                         {
-                            recipeRef
-                                    .add(new Recipe(newRecipeName, newRecipeDescription, Objects.requireNonNull(task.getResult()).toString(), userAuth.getUid()))
-                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>()
+                            //Attach username to recipe - experimental(remove userRef and its Listeners but keep the recipeRef to revert)
+                            userRef.document(Objects.requireNonNull(userAuth.getUid())).get()
+                                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>()
                                     {
                                         @Override
-                                        public void onSuccess(DocumentReference documentReference)
+                                        public void onSuccess(DocumentSnapshot documentSnapshot)
                                         {
-                                            Toast.makeText(AddNewRecipeActivity.this, "Recipe added!", Toast.LENGTH_SHORT).show();
-                                            finish();
+                                            User user = documentSnapshot.toObject(User.class);
+                                            assert user != null;
+                                            recipeRef
+                                                    .add(new Recipe(newRecipeName, newRecipeDescription, Objects.requireNonNull(task.getResult()).toString(), userAuth.getUid(), user.getUserUsername()))
+                                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>()
+                                                    {
+                                                        @Override
+                                                        public void onSuccess(DocumentReference documentReference)
+                                                        {
+                                                            Toast.makeText(AddNewRecipeActivity.this, "Recipe added!", Toast.LENGTH_SHORT).show();
+                                                            finish();
+                                                        }
+                                                    })
+                                                    .addOnFailureListener(new OnFailureListener()
+                                                    {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e)
+                                                        {
+                                                            Toast.makeText(AddNewRecipeActivity.this, "Error: " + e, Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    });
                                         }
                                     })
                                     .addOnFailureListener(new OnFailureListener()
@@ -331,7 +354,7 @@ public class AddNewRecipeActivity extends AppCompatActivity
                                         @Override
                                         public void onFailure(@NonNull Exception e)
                                         {
-                                            Toast.makeText(AddNewRecipeActivity.this, "Error: " + e, Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(AddNewRecipeActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                                         }
                                     });
                         }
@@ -349,17 +372,36 @@ public class AddNewRecipeActivity extends AppCompatActivity
                     }
                 });
             }
+            //If no image is selected set the default one
             else
             {
-                recipeRef
-                        .add(new Recipe(newRecipeName, newRecipeDescription, newRecipeImageUrl, userAuth.getUid()))
-                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>()
+                userRef.document(Objects.requireNonNull(userAuth.getUid())).get()
+                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>()
                         {
                             @Override
-                            public void onSuccess(DocumentReference documentReference)
+                            public void onSuccess(DocumentSnapshot documentSnapshot)
                             {
-                                Toast.makeText(AddNewRecipeActivity.this, "Recipe added!", Toast.LENGTH_SHORT).show();
-                                finish();
+                                User user = documentSnapshot.toObject(User.class);
+                                assert user != null;
+                                recipeRef
+                                        .add(new Recipe(newRecipeName, newRecipeDescription, newRecipeImageUrl, userAuth.getUid(), user.getUserUsername()))
+                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>()
+                                        {
+                                            @Override
+                                            public void onSuccess(DocumentReference documentReference)
+                                            {
+                                                Toast.makeText(AddNewRecipeActivity.this, "Recipe added!", Toast.LENGTH_SHORT).show();
+                                                finish();
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener()
+                                        {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e)
+                                            {
+                                                Toast.makeText(AddNewRecipeActivity.this, "Error: " + e, Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
                             }
                         })
                         .addOnFailureListener(new OnFailureListener()
@@ -367,7 +409,7 @@ public class AddNewRecipeActivity extends AppCompatActivity
                             @Override
                             public void onFailure(@NonNull Exception e)
                             {
-                                Toast.makeText(AddNewRecipeActivity.this, "Error: " + e, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(AddNewRecipeActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
             }

@@ -8,18 +8,20 @@ public class Recipe
     private String recipeDescription;
     private String recipeImage;
     private String recipeAuthorId;
+    private String recipeAuthorUsername;
 
     //Constructors
     public Recipe()
     {
     }
 
-    public Recipe(String recipeName, String recipeDescription, String recipeImage, String recipeAuthorId)
+    public Recipe(String recipeName, String recipeDescription, String recipeImage, String recipeAuthorId, String recipeAuthorUsername)
     {
         this.recipeName = recipeName;
         this.recipeDescription = recipeDescription;
         this.recipeImage = recipeImage;
         this.recipeAuthorId = recipeAuthorId;
+        this.recipeAuthorUsername = recipeAuthorUsername;
     }
 
     //Getters-Setters
@@ -62,4 +64,15 @@ public class Recipe
     {
         this.recipeAuthorId = recipeAuthorId;
     }
+
+    public String getRecipeAuthorUsername()
+    {
+        return recipeAuthorUsername;
+    }
+
+    public void setRecipeAuthorUsername(String recipeAuthorUsername)
+    {
+        this.recipeAuthorUsername = recipeAuthorUsername;
+    }
+
 }

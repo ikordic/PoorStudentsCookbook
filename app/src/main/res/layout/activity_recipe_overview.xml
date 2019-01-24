@@ -15,32 +15,41 @@
         android:layout_centerHorizontal="true"
         />
 
-
     <TextView
         android:id="@+id/textViewRecipeOverviewName"
-        android:layout_width="390dp"
-        android:layout_height="63dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/imageViewRecipeOverview"
+        android:layout_centerHorizontal="true"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="25dp"
         android:layout_marginRight="20dp"
-        android:layout_marginBottom="7dp"
+        android:layout_marginBottom="13dp"
         android:text=""
         android:textAlignment="center"
         android:textSize="24sp"
-        android:layout_centerHorizontal="true"/>
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textViewRecipeOverviewDescription"
         android:layout_width="match_parent"
-        android:layout_height="160dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/textViewRecipeOverviewName"
         android:layout_centerHorizontal="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="20dp"
-        android:textSize="14sp"
+        android:layout_marginLeft="17dp"
+        android:layout_marginRight="17dp"
         android:text=""
+        android:textAlignment="textStart"
+        android:textSize="14sp" />
 
-        />
+    <TextView
+        android:id="@+id/textViewRecipeOverviewBy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewRecipeOverviewDescription"
+        android:layout_alignEnd="@+id/imageViewRecipeOverview"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="5dp"
+        android:text=""
+        android:textStyle="bold" />
 </RelativeLayout>
