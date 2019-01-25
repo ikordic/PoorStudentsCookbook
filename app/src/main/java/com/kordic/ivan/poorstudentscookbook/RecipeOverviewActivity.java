@@ -1,29 +1,21 @@
 package com.kordic.ivan.poorstudentscookbook;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.kordic.ivan.poorstudentscookbook.Model.Recipe;
-
-import java.util.Objects;
 
 public class RecipeOverviewActivity extends AppCompatActivity
 {
@@ -36,8 +28,9 @@ public class RecipeOverviewActivity extends AppCompatActivity
     private ImageView imageViewRecipeOverview;
     private TextView textViewRecipeOverviewBy;
 
-    String recipeId = "";
-    
+    private String recipeId = "";
+    private String username = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -85,6 +78,8 @@ public class RecipeOverviewActivity extends AppCompatActivity
                             textViewRecipeOverviewDescription.setText(recipe.getRecipeDescription());
                             textViewRecipeOverviewBy.setText("by: " + recipe.getRecipeAuthorUsername());
                             Glide.with(RecipeOverviewActivity.this).load(recipe.getRecipeImage()).into(imageViewRecipeOverview);
+
+                            username = recipe.getRecipeAuthorUsername();
                         }
                     }
                 })
@@ -96,5 +91,14 @@ public class RecipeOverviewActivity extends AppCompatActivity
                         Toast.makeText(RecipeOverviewActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+
+        textViewRecipeOverviewBy.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                startActivity(new Intent(RecipeOverviewActivity.this, ProfileRecipesActivity.class).putExtra("USERNAME", username));
+            }
+        });
     }
 }
