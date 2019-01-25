@@ -2,6 +2,7 @@ package com.kordic.ivan.poorstudentscookbook.Model;
 
 //Model class which stores data
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Recipe
@@ -9,31 +10,30 @@ public class Recipe
     private String recipeName;
     private String recipeDescription;
     private String recipeImage;
-    private String creator;
-
-    private ArrayList<String> ingredients;
-
-
+    private String recipeAuthorId;
+    private String recipeAuthorUsername;
+    private ArrayList<String> recipeIngredients;
 
     //Constructors
     public Recipe()
     {
     }
 
-
-    public Recipe(String recipeName, String recipeDescription, String recipeImage, String creator, ArrayList ingredients)
-    {
+    public Recipe(String recipeName, String recipeDescription, String recipeImage, String recipeAuthorId, String recipeAuthorUsername) {
         this.recipeName = recipeName;
         this.recipeDescription = recipeDescription;
         this.recipeImage = recipeImage;
-        this.creator = creator;
-        this.ingredients = new ArrayList<String>();
+        this.recipeAuthorId = recipeAuthorId;
+        this.recipeAuthorUsername = recipeAuthorUsername;
     }
 
-    public Recipe(String recipeName, String recipeDescription, String recipeImage) {
+    public Recipe(String recipeName, String recipeDescription, String recipeImage, String recipeAuthorId, String recipeAuthorUsername, ArrayList<String> recipeIngredients) {
         this.recipeName = recipeName;
         this.recipeDescription = recipeDescription;
         this.recipeImage = recipeImage;
+        this.recipeAuthorId = recipeAuthorId;
+        this.recipeAuthorUsername = recipeAuthorUsername;
+        this.recipeIngredients = recipeIngredients;
     }
 
     //Getters-Setters
@@ -57,17 +57,14 @@ public class Recipe
         this.recipeDescription = recipeDescription;
     }
 
-    public String getCreator() {
-        return creator;
+    public ArrayList<String> getRecipeIngredients() {
+        return recipeIngredients;
     }
 
-    public void setCreator(String creator) {
-        this.creator = creator;
+    public void setRecipeIngredients(ArrayList<String> recipeIngredients) {
+        this.recipeIngredients = recipeIngredients;
     }
 
-    public ArrayList<String> getIngredients() {
-        return ingredients;
-    }
     public String getRecipeImage()
     {
         return recipeImage;
@@ -77,4 +74,25 @@ public class Recipe
     {
         this.recipeImage = recipeImage;
     }
+
+    public String getRecipeAuthorId()
+    {
+        return recipeAuthorId;
+    }
+
+    public void setRecipeAuthorId(String recipeAuthorId)
+    {
+        this.recipeAuthorId = recipeAuthorId;
+    }
+
+    public String getRecipeAuthorUsername()
+    {
+        return recipeAuthorUsername;
+    }
+
+    public void setRecipeAuthorUsername(String recipeAuthorUsername)
+    {
+        this.recipeAuthorUsername = recipeAuthorUsername;
+    }
+
 }

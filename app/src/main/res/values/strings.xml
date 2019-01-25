@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">PoorStudentsCookbook</string>
+    <string name="sastojci">Sastojci: </string>
 </resources>
