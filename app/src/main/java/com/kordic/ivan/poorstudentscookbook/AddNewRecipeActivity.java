@@ -83,7 +83,6 @@ public class AddNewRecipeActivity extends AppCompatActivity
     String newRecipePreparationSteps;
     String newRecipeImageUrl = "https://firebasestorage.googleapis.com/v0/b/poorstudentscookbook-f9e8b.appspot.com/o/recipe%2Flogo_600.png?alt=media&token=0c838482-d339-4724-a671-e76366b7d894";
     ArrayList<String> newIngredients;
-    ArrayList<String> oldIngredients;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
