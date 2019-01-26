@@ -17,11 +17,10 @@
             android:id="@+id/textViewIngredients"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/textViewRecipeOverviewDescription"
+            android:layout_below="@+id/textViewRecipeOverviewBy"
             android:layout_alignParentStart="true"
-            android:layout_marginStart="1dp"
-            android:layout_marginTop="23dp"
-            android:layout_marginBottom="35dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="21dp"
             android:text="@string/sastojci"
             android:textSize="18sp" />
 
@@ -56,7 +55,7 @@
             android:layout_marginEnd="12dp"
             android:clickable="true"
             android:focusable="true"
-            android:text=""
+            android:text="place"
             android:textAlignment="center"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -78,14 +77,14 @@
         <ListView
             android:id="@+id/listViewRecipeIngredients"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:layout_below="@+id/textViewRecipeOverviewDescription"
+            android:layout_height="300dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_below="@+id/textViewIngredients"
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="68dp"
-            android:layout_marginBottom="0dp" />
+            android:layout_margin="15dp"
+            />
 
     </RelativeLayout>
 </ScrollView>
