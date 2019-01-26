@@ -21,7 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -32,14 +31,9 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.google.protobuf.Empty;
-import com.kordic.ivan.poorstudentscookbook.Adapter.RecipeAdapter;
 import com.kordic.ivan.poorstudentscookbook.Model.Recipe;
 import com.kordic.ivan.poorstudentscookbook.Model.User;
 
@@ -76,6 +70,7 @@ public class AddNewRecipeActivity extends AppCompatActivity
     //URI which points to image for the imageview
     private Uri recipeImageUri;
 
+    //Used
     private Task recipeUploadTask;
 
     String recipeId;
@@ -106,8 +101,6 @@ public class AddNewRecipeActivity extends AppCompatActivity
         this.listViewIngredients = findViewById(R.id.listViewIngredients);
         this.buttonAddNewIgredient = findViewById(R.id.buttonAddNewIgredient);
         this.progressBar = findViewById(R.id.progressBar);
-
-
 
         //Getting recipeId from RecipeCardViewActivity-startActivity
         if (savedInstanceState == null)
@@ -185,15 +178,15 @@ public class AddNewRecipeActivity extends AppCompatActivity
 
                 if (newRecipeName.trim().isEmpty() || newRecipeDescription.trim().isEmpty() || newIngredients.isEmpty())
                 {
-                    Toast.makeText(AddNewRecipeActivity.this, "Fill all text fields", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddNewRecipeActivity.this, "Fill all fields and add at least one ingredient", Toast.LENGTH_LONG).show();
                     return;
                 }
                 uploadFile();
             }
         });
 
-        newIngredients = new ArrayList<String>();
-         adapter = new ArrayAdapter<String>(AddNewRecipeActivity.this, android.R.layout.simple_list_item_1, newIngredients);
+        newIngredients = new ArrayList<>();
+         adapter = new ArrayAdapter<>(AddNewRecipeActivity.this, android.R.layout.simple_list_item_1, newIngredients);
         listViewIngredients.setAdapter(adapter);
     }
 
@@ -206,6 +199,7 @@ public class AddNewRecipeActivity extends AppCompatActivity
             }
         });
     }
+
     //ProgressBar
     public void showProgressingView()
     {
@@ -319,7 +313,6 @@ public class AddNewRecipeActivity extends AppCompatActivity
             buttonSaveNewRecipe.setClickable(false);
             UIUtil.hideKeyboard(AddNewRecipeActivity.this);
             showProgressingView();
-
 
             if (recipeImageUri != null)
             {
@@ -440,6 +433,4 @@ public class AddNewRecipeActivity extends AppCompatActivity
             }
         }
     }
-
-
 }

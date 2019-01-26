@@ -92,8 +92,8 @@
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
                 android:ems="10"
-                android:inputType="textPersonName"
-                android:text="Name" />
+                android:hint="Recipe ingredient"
+                android:inputType="textPersonName" />
 
             <Button
                 android:id="@+id/buttonAddNewIgredient"
