@@ -1,5 +1,6 @@
 package com.kordic.ivan.poorstudentscookbook;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -43,6 +44,7 @@ public class RecipeOverviewActivity extends AppCompatActivity
     private ListView listViewRecipeIngredients;
 
     String recipeId = "";
+    private String username = "";
     
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -91,6 +93,7 @@ public class RecipeOverviewActivity extends AppCompatActivity
                             textViewRecipeOverviewName.setText(recipe.getRecipeName());
                             textViewRecipeOverviewDescription.setText(recipe.getRecipeDescription());
                             textViewRecipeOverviewBy.setText("by: " + recipe.getRecipeAuthorUsername());
+                            username = recipe.getRecipeAuthorUsername();
                             ArrayList<String> arrayList  = new ArrayList<String>();
                             arrayList = (ArrayList)documentSnapshot.get("recipeIngredients");
                             ArrayAdapter<String> adapter  = new ArrayAdapter<String>(RecipeOverviewActivity.this, android.R.layout.simple_list_item_1,arrayList);
@@ -109,6 +112,15 @@ public class RecipeOverviewActivity extends AppCompatActivity
                     }
                 });
 
+        textViewRecipeOverviewBy.setOnClickListener(new View.OnClickListener()
+        {
+
+            @Override
+            public void onClick(View view)
+            {
+                startActivity(new Intent(RecipeOverviewActivity.this, ProfileRecipesActivity.class).putExtra("USERNAME", username));
+            }
+        });
 
 
     }

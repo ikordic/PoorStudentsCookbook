@@ -79,7 +79,6 @@ public class AddNewRecipeActivity extends AppCompatActivity
     private Task recipeUploadTask;
 
     String recipeId;
-    String username;
     Boolean editRecipe = false;
 
     //Global variables with default values
