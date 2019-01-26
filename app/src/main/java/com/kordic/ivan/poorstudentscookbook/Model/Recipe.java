@@ -2,6 +2,9 @@ package com.kordic.ivan.poorstudentscookbook.Model;
 
 //Model class which stores data
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class Recipe
 {
     private String recipeName;
@@ -9,19 +12,28 @@ public class Recipe
     private String recipeImage;
     private String recipeAuthorId;
     private String recipeAuthorUsername;
+    private ArrayList<String> recipeIngredients;
 
     //Constructors
     public Recipe()
     {
     }
 
-    public Recipe(String recipeName, String recipeDescription, String recipeImage, String recipeAuthorId, String recipeAuthorUsername)
-    {
+    public Recipe(String recipeName, String recipeDescription, String recipeImage, String recipeAuthorId, String recipeAuthorUsername) {
         this.recipeName = recipeName;
         this.recipeDescription = recipeDescription;
         this.recipeImage = recipeImage;
         this.recipeAuthorId = recipeAuthorId;
         this.recipeAuthorUsername = recipeAuthorUsername;
+    }
+
+    public Recipe(String recipeName, String recipeDescription, String recipeImage, String recipeAuthorId, String recipeAuthorUsername, ArrayList<String> recipeIngredients) {
+        this.recipeName = recipeName;
+        this.recipeDescription = recipeDescription;
+        this.recipeImage = recipeImage;
+        this.recipeAuthorId = recipeAuthorId;
+        this.recipeAuthorUsername = recipeAuthorUsername;
+        this.recipeIngredients = recipeIngredients;
     }
 
     //Getters-Setters
@@ -43,6 +55,14 @@ public class Recipe
     public void setRecipeDescription(String recipeDescription)
     {
         this.recipeDescription = recipeDescription;
+    }
+
+    public ArrayList<String> getRecipeIngredients() {
+        return recipeIngredients;
+    }
+
+    public void setRecipeIngredients(ArrayList<String> recipeIngredients) {
+        this.recipeIngredients = recipeIngredients;
     }
 
     public String getRecipeImage()
