@@ -60,7 +60,6 @@ public class AddNewRecipeActivity extends AppCompatActivity
     private Button buttonAddNewIgredient;
     private ProgressBar progressBar;
     private ArrayAdapter adapter;
-    private EditText editTextNewRecipePreparationSteps;
 
     ViewGroup progressView;
     protected boolean isProgressShowing = false;
@@ -80,7 +79,6 @@ public class AddNewRecipeActivity extends AppCompatActivity
     //Global variables with default values
     String newRecipeName;
     String newRecipeDescription;
-    String newRecipePreparationSteps;
     String newRecipeImageUrl = "https://firebasestorage.googleapis.com/v0/b/poorstudentscookbook-f9e8b.appspot.com/o/recipe%2Flogo_600.png?alt=media&token=0c838482-d339-4724-a671-e76366b7d894";
     ArrayList<String> newIngredients;
     @Override
@@ -103,7 +101,6 @@ public class AddNewRecipeActivity extends AppCompatActivity
         this.listViewIngredients = findViewById(R.id.listViewIngredients);
         this.buttonAddNewIgredient = findViewById(R.id.buttonAddNewIgredient);
         this.progressBar = findViewById(R.id.progressBar);
-        this.editTextNewRecipePreparationSteps = findViewById(R.id.editTextNewRecipePreparationSteps);
 
         //Getting recipeId from RecipeCardViewActivity-startActivity
         if (savedInstanceState == null)
@@ -148,7 +145,6 @@ public class AddNewRecipeActivity extends AppCompatActivity
                                 newIngredients = recipe.getRecipeIngredients();
                                 adapter = new ArrayAdapter<String>(AddNewRecipeActivity.this, android.R.layout.simple_list_item_1, newIngredients);
                                 listViewIngredients.setAdapter(adapter);
-                                editTextNewRecipePreparationSteps.setText(recipe.getRecipePreparationSteps());
                                 newRecipeImageUrl = recipe.getRecipeImage();
                                 Glide.with(AddNewRecipeActivity.this).load(recipe.getRecipeImage()).into(imageViewNewRecipe);
                             }
@@ -188,9 +184,7 @@ public class AddNewRecipeActivity extends AppCompatActivity
             {
                 newRecipeName = editTextNewRecipeName.getText().toString();
                 newRecipeDescription = editTextNewRecipeDescription.getText().toString();
-                newRecipePreparationSteps = editTextNewRecipePreparationSteps.getText().toString();
 
-                if (newRecipeName.trim().isEmpty() || newRecipeDescription.trim().isEmpty() || newIngredients.isEmpty() || newRecipePreparationSteps.trim().isEmpty())
                 if (newRecipeName.trim().isEmpty() || newRecipeDescription.trim().isEmpty() )
                 {
                     Toast.makeText(AddNewRecipeActivity.this, "Fill all fields and add at least one ingredient", Toast.LENGTH_LONG).show();
@@ -290,7 +284,7 @@ public class AddNewRecipeActivity extends AppCompatActivity
                             recipeRef.document(recipeId).update("recipeName", newRecipeName);
                             recipeRef.document(recipeId).update("recipeDescription", newRecipeDescription);
                             recipeRef.document(recipeId).update("recipeImage",Objects.requireNonNull(task.getResult()).toString());
-                            recipeRef.document(recipeId).update("recipePreparationSteps", newRecipePreparationSteps);
+
                             Toast.makeText(AddNewRecipeActivity.this, "Recipe updated!", Toast.LENGTH_SHORT).show();
                             recipeId = null;
                             finish();
@@ -317,7 +311,7 @@ public class AddNewRecipeActivity extends AppCompatActivity
                 recipeRef.document(recipeId).update("recipeDescription", newRecipeDescription);
                 recipeRef.document(recipeId).update("recipeImage", newRecipeImageUrl);
                 recipeRef.document(recipeId).update("recipeIngredients", newIngredients);
-                recipeRef.document(recipeId).update("recipePreparationSteps", newRecipePreparationSteps);
+
                 Toast.makeText(AddNewRecipeActivity.this, "Recipe updated!", Toast.LENGTH_SHORT).show();
                 recipeId = null;
                 finish();
@@ -365,7 +359,7 @@ public class AddNewRecipeActivity extends AppCompatActivity
                                             User user = documentSnapshot.toObject(User.class);
                                             assert user != null;
                                             recipeRef
-                                                    .add(new Recipe(newRecipeName, newRecipeDescription, Objects.requireNonNull(task.getResult()).toString(), userAuth.getUid(), user.getUserUsername(), newIngredients, newRecipePreparationSteps))
+                                                    .add(new Recipe(newRecipeName, newRecipeDescription, Objects.requireNonNull(task.getResult()).toString(), userAuth.getUid(), user.getUserUsername(), newIngredients))
                                                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>()
                                                     {
                                                         @Override
@@ -420,7 +414,7 @@ public class AddNewRecipeActivity extends AppCompatActivity
                                 User user = documentSnapshot.toObject(User.class);
                                 assert user != null;
                                 recipeRef
-                                        .add(new Recipe(newRecipeName, newRecipeDescription, newRecipeImageUrl, userAuth.getUid(), user.getUserUsername(),newIngredients, "test"))
+                                        .add(new Recipe(newRecipeName, newRecipeDescription, newRecipeImageUrl, userAuth.getUid(), user.getUserUsername(),newIngredients))
                                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>()
                                         {
                                             @Override
