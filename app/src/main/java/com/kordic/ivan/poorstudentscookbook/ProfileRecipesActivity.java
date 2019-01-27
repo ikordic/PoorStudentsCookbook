@@ -34,7 +34,6 @@ public class ProfileRecipesActivity extends AppCompatActivity
 
     private TextView textViewProfileUsername;
     private ImageView imageViewProfileUserImage;
-    private RecyclerView recyclerViewRecipes;
     private RecipeAdapter adapter;
 
     private String username = "";
