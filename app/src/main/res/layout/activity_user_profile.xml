@@ -29,6 +29,13 @@
                 android:focusable="true"
                 tools:srcCompat="@tools:sample/avatars" />
 
+            <Button
+                android:id="@+id/buttonUserProfileSaveImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Save image" />
+
             <TextView
                 android:id="@+id/textViewUserProfileUsername"
                 android:layout_width="match_parent"
@@ -81,9 +88,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="15dp"
-                    android:hint="Enter your new password"
+                    android:hint="Enter your password"
                     android:inputType="textPassword"
-                    android:text="********"
                     android:textAlignment="textStart"
                     android:textSize="16sp" />
 
@@ -107,6 +113,17 @@
                 android:text="Change your password"
                 android:textSize="16sp"
                 android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/editTextUserProfileNewPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:hint="Enter your new password"
+                android:inputType="textPassword"
+                android:layout_gravity="center"
+                android:textAlignment="textStart"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/textViewUserProfileDeleteProfile"

@@ -32,6 +32,7 @@ public class RecipeCardViewActivity extends AppCompatActivity
     private FloatingActionButton buttonAddNewRecipe;
     private RecyclerView recyclerViewRecipes;
     private int positionIndex = 0;
+    private Boolean logged = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -43,11 +44,6 @@ public class RecipeCardViewActivity extends AppCompatActivity
 
         //Connecting the adapter and Recyclerview
         setUpRecyclerView();
-
-        if(userAuth.getCurrentUser() == null)
-        {
-            buttonAddNewRecipe.hide();
-        }
 
         buttonAddNewRecipe.setOnClickListener(new View.OnClickListener()
         {
@@ -64,7 +60,7 @@ public class RecipeCardViewActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu)
     {
         MenuInflater inflater = getMenuInflater();
-        if(userAuth.getCurrentUser() == null)
+        if(logged.equals(false))
         {
             inflater.inflate(R.menu.guest_user_menu, menu);
         }
@@ -88,6 +84,7 @@ public class RecipeCardViewActivity extends AppCompatActivity
             case R.id.menu_my_profile:
             {
                 startActivity(new Intent(RecipeCardViewActivity.this, UserProfileActivity.class));
+                finish();
                 break;
             }
             case R.id.menu_log_out:
@@ -154,6 +151,17 @@ public class RecipeCardViewActivity extends AppCompatActivity
     {
         super.onStart();
         adapter.startListening();
+
+        if(userAuth.getCurrentUser() == null)
+        {
+            buttonAddNewRecipe.hide();
+            logged = false;
+        }
+        else
+        {
+            buttonAddNewRecipe.show();
+            logged = true;
+        }
     }
 
     @Override
