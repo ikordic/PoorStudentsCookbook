@@ -84,7 +84,6 @@ public class RecipeCardViewActivity extends AppCompatActivity
             case R.id.menu_my_profile:
             {
                 startActivity(new Intent(RecipeCardViewActivity.this, UserProfileActivity.class));
-                finish();
                 break;
             }
             case R.id.menu_log_out:
