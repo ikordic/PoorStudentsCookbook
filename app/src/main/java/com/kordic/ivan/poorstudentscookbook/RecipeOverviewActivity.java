@@ -42,6 +42,7 @@ public class RecipeOverviewActivity extends AppCompatActivity
     private ImageView imageViewRecipeOverview;
     private TextView textViewRecipeOverviewBy;
     private ListView listViewRecipeIngredients;
+    private TextView textViewRecipeOverviewPreparationSteps;
 
     String recipeId = "";
     private String username = "";
@@ -56,7 +57,8 @@ public class RecipeOverviewActivity extends AppCompatActivity
         this.textViewRecipeOverviewDescription = findViewById(R.id.textViewRecipeOverviewDescription);
         this.imageViewRecipeOverview = findViewById(R.id.imageViewRecipeOverview);
         this.textViewRecipeOverviewBy = findViewById(R.id.textViewRecipeOverviewBy);
-        this.listViewRecipeIngredients =findViewById(R.id.listViewRecipeIngredients);
+        this.listViewRecipeIngredients = findViewById(R.id.listViewRecipeIngredients);
+        this.textViewRecipeOverviewPreparationSteps = findViewById(R.id.textViewRecipeOverviewPreparationSteps);
 
         if(savedInstanceState == null)
         {
@@ -93,6 +95,7 @@ public class RecipeOverviewActivity extends AppCompatActivity
                             textViewRecipeOverviewName.setText(recipe.getRecipeName());
                             textViewRecipeOverviewDescription.setText(recipe.getRecipeDescription());
                             textViewRecipeOverviewBy.setText("by: " + recipe.getRecipeAuthorUsername());
+                            textViewRecipeOverviewPreparationSteps.setText(recipe.getRecipePreparationSteps());
                             username = recipe.getRecipeAuthorUsername();
                             ArrayList<String> arrayList  = new ArrayList<String>();
                             arrayList = (ArrayList)documentSnapshot.get("recipeIngredients");
