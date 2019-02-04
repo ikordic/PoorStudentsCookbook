@@ -1,6 +1,8 @@
 package com.kordic.ivan.poorstudentscookbook;
 
 import android.content.Intent;
+import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,7 +32,6 @@ public class RecipeCardViewActivity extends AppCompatActivity
     private FloatingActionButton buttonAddNewRecipe;
     private RecyclerView recyclerViewRecipes;
     private int positionIndex = 0;
-    String recipeId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
