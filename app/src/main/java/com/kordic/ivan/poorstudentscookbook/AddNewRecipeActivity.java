@@ -87,6 +87,7 @@ public class AddNewRecipeActivity extends AppCompatActivity
     String newRecipeDescription;
     String newRecipeImageUrl = "https://firebasestorage.googleapis.com/v0/b/poorstudentscookbook-f9e8b.appspot.com/o/recipe%2Flogo_600.png?alt=media&token=0c838482-d339-4724-a671-e76366b7d894";
     ArrayList<String> newIngredients;
+    ArrayList<String> oldIngredients;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -150,6 +151,9 @@ public class AddNewRecipeActivity extends AppCompatActivity
                                 assert recipe != null;
                                 editTextNewRecipeName.setText(recipe.getRecipeName());
                                 editTextNewRecipeDescription.setText(recipe.getRecipeDescription());
+                                newIngredients = recipe.getRecipeIngredients();
+                                adapter = new ArrayAdapter<String>(AddNewRecipeActivity.this, android.R.layout.simple_list_item_1, newIngredients);
+                                listViewIngredients.setAdapter(adapter);
                                 newRecipeImageUrl = recipe.getRecipeImage();
                                 Glide.with(AddNewRecipeActivity.this).load(recipe.getRecipeImage()).into(imageViewNewRecipe);
                             }
@@ -176,6 +180,12 @@ public class AddNewRecipeActivity extends AppCompatActivity
             }
         });
 
+
+
+        newIngredients = new ArrayList<String>();
+         adapter = new ArrayAdapter<String>(AddNewRecipeActivity.this, android.R.layout.simple_list_item_1, newIngredients);
+        listViewIngredients.setAdapter(adapter);
+
         buttonSaveNewRecipe.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -184,18 +194,17 @@ public class AddNewRecipeActivity extends AppCompatActivity
                 newRecipeName = editTextNewRecipeName.getText().toString();
                 newRecipeDescription = editTextNewRecipeDescription.getText().toString();
 
-                if (newRecipeName.trim().isEmpty() || newRecipeDescription.trim().isEmpty() || newIngredients.isEmpty())
+                if (newRecipeName.trim().isEmpty() || newRecipeDescription.trim().isEmpty() )
                 {
                     Toast.makeText(AddNewRecipeActivity.this, "Fill all text fields", Toast.LENGTH_SHORT).show();
                     return;
+                }else if(newRecipeName.length()>125){
+                    Toast.makeText(AddNewRecipeActivity.this, "Too big name for a recipe, maximum is 125 charachters", Toast.LENGTH_SHORT).show();
+                }else {
+                    uploadFile();
                 }
-                uploadFile();
             }
         });
-
-        newIngredients = new ArrayList<String>();
-         adapter = new ArrayAdapter<String>(AddNewRecipeActivity.this, android.R.layout.simple_list_item_1, newIngredients);
-        listViewIngredients.setAdapter(adapter);
     }
 
     public void onBtnClick(View v){
