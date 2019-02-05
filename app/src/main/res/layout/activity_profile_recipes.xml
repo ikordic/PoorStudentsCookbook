@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/common_google_signin_btn_text_light_disabled"
-    tools:context=".ProfileRecipesActivity">
+    android:background="@drawable/bg_login"
+    tools:context=".ProfileRecipesActivity"
+    >
 
     <ImageView
         android:id="@+id/imageViewProfileUserImage"
