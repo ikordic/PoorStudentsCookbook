@@ -57,7 +57,6 @@ public class RecipeOverviewActivity extends AppCompatActivity
         this.textViewRecipeOverviewDescription = findViewById(R.id.textViewRecipeOverviewDescription);
         this.imageViewRecipeOverview = findViewById(R.id.imageViewRecipeOverview);
         this.textViewRecipeOverviewBy = findViewById(R.id.textViewRecipeOverviewBy);
-        this.listViewRecipeIngredients = findViewById(R.id.listViewRecipeIngredients);
         this.textViewRecipeOverviewPreparationSteps = findViewById(R.id.textViewRecipeOverviewPreparationSteps);
         this.listViewRecipeIngredients = findViewById(R.id.listViewIngredients);
 
@@ -95,7 +94,7 @@ public class RecipeOverviewActivity extends AppCompatActivity
                             assert recipe != null;
                             textViewRecipeOverviewName.setText(recipe.getRecipeName());
                             textViewRecipeOverviewDescription.setText(recipe.getRecipeDescription());
-                            textViewRecipeOverviewBy.setText("by: " + recipe.getRecipeAuthorUsername());
+                            textViewRecipeOverviewBy.setText(recipe.getRecipeAuthorUsername());
                             textViewRecipeOverviewPreparationSteps.setText(recipe.getRecipePreparationSteps());
                             username = recipe.getRecipeAuthorUsername();
                             ArrayList<String> arrayList  = new ArrayList<String>();

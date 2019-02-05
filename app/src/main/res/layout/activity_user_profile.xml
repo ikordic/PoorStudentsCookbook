@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".UserProfileActivity">
+    tools:context=".UserProfileActivity"
+    android:background="@drawable/bg_login">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -34,6 +35,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:background="@drawable/button_background"
+                android:layout_marginTop="10dp"
+                android:padding="10dp"
                 android:text="Save image" />
 
             <TextView
@@ -45,61 +49,60 @@
                 android:textAlignment="center"
                 android:textSize="30sp" />
 
-            <TextView
-                android:id="@+id/textViewUserProfileYourInfo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:text="Your info:"
-                android:textAlignment="center"
-                android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/textViewUserProfileYourEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="15dp"
-                    android:text="Your email:        "
+                    android:layout_marginStart="20dp"
+                    android:text="Your email:"
                     android:textAlignment="textStart"
-                    android:textSize="16sp" />
+                    android:textSize="18sp" />
 
                 <EditText
                     android:id="@+id/editTextUserProfileEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="15dp"
+                    android:layout_marginStart="20dp"
                     android:hint="Enter your e-mail address"
+                    android:layout_marginTop="7dp"
+                    android:background="@drawable/edit_text_background"
+                    android:padding="10dp"
                     android:textAlignment="textStart"
-                    android:textSize="16sp" />
+                    android:textSize="18sp" />
 
 
                 <TextView
                     android:id="@+id/textViewUserProfileYourPassword"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="15dp"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginStart="20dp"
                     android:text="Your password:"
                     android:textAlignment="textStart"
-                    android:textSize="16sp" />
+                    android:textSize="18sp" />
 
                 <EditText
                     android:id="@+id/editTextUserProfilePassword"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="15dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="7dp"
                     android:hint="Enter your password"
+                    android:padding="10dp"
                     android:inputType="textPassword"
+                    android:background="@drawable/edit_text_background"
                     android:textAlignment="textStart"
-                    android:textSize="16sp" />
-
+                    android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/textViewUserProfileChangeEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="40dp"
+                android:background="@drawable/edit_text_background"
+                android:padding="10dp"
                 android:text="Change your email"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -108,8 +111,10 @@
                 android:id="@+id/textViewUserProfileChangePassword"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="35dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/edit_text_background"
+                android:padding="10dp"
                 android:text="Change your password"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -118,11 +123,12 @@
                 android:id="@+id/editTextUserProfileNewPassword"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="15dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
                 android:hint="Enter your new password"
                 android:inputType="textPassword"
-                android:layout_gravity="center"
-                android:textAlignment="textStart"
+                android:background="@drawable/edit_text_background"
+                android:padding="10dp"
                 android:textSize="16sp" />
 
             <TextView
@@ -133,6 +139,8 @@
                 android:layout_marginTop="35dp"
                 android:layout_marginBottom="25dp"
                 android:text="Delete your profile"
+                android:background="@drawable/edit_text_background"
+                android:padding="10dp"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
