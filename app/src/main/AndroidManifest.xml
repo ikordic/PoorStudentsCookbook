@@ -16,6 +16,10 @@
         <activity android:name=".MyRecipesActivity" />
         <activity android:name=".ProfileRecipesActivity" />
         <activity android:name=".LoginActivity" />
+        <activity android:name=".MyRecipesActivity"></activity>
+        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".ProfileRecipesActivity"></activity>
+
         <activity
             android:name=".RecipeOverviewActivity"
             android:parentActivityName=".RecipeCardViewActivity" /> <!-- Parent activity meta-data to support 4.0 and lower -->

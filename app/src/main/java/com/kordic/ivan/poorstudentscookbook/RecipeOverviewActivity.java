@@ -46,7 +46,7 @@ public class RecipeOverviewActivity extends AppCompatActivity
 
     String recipeId = "";
     private String username = "";
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -59,6 +59,7 @@ public class RecipeOverviewActivity extends AppCompatActivity
         this.textViewRecipeOverviewBy = findViewById(R.id.textViewRecipeOverviewBy);
         this.listViewRecipeIngredients = findViewById(R.id.listViewRecipeIngredients);
         this.textViewRecipeOverviewPreparationSteps = findViewById(R.id.textViewRecipeOverviewPreparationSteps);
+        this.listViewRecipeIngredients = findViewById(R.id.listViewIngredients);
 
         if(savedInstanceState == null)
         {

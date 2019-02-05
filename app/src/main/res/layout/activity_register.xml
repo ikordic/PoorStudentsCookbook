@@ -24,6 +24,7 @@
                 android:layout_marginRight="30dp"
                 android:text="Register"
                 android:textAlignment="center"
+                android:textColor="@color/colorAccent"
                 android:textSize="30sp" />
 
             <EditText
