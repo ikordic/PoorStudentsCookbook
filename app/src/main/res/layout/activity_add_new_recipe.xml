@@ -92,8 +92,8 @@
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
                 android:ems="10"
-                android:inputType="textPersonName"
-                android:text="Name" />
+                android:hint="Enter ingredient"
+                android:inputType="textPersonName" />
 
             <Button
                 android:id="@+id/buttonAddNewIgredient"
@@ -102,7 +102,7 @@
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
                 android:onClick="onBtnClick"
-                android:text="Dodaj sastojak" />
+                android:text="Add ingredient" />
 
             <Button
                 android:id="@+id/buttonSaveNewRecipe"
