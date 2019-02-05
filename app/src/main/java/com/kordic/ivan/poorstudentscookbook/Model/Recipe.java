@@ -13,6 +13,7 @@ public class Recipe
     private String recipeAuthorId;
     private String recipeAuthorUsername;
     private ArrayList<String> recipeIngredients;
+    private String recipePreparationSteps;
 
     //Constructors
     public Recipe()
@@ -27,13 +28,14 @@ public class Recipe
         this.recipeAuthorUsername = recipeAuthorUsername;
     }
 
-    public Recipe(String recipeName, String recipeDescription, String recipeImage, String recipeAuthorId, String recipeAuthorUsername, ArrayList<String> recipeIngredients) {
+    public Recipe(String recipeName, String recipeDescription, String recipeImage, String recipeAuthorId, String recipeAuthorUsername, ArrayList<String> recipeIngredients, String recipePreparationSteps) {
         this.recipeName = recipeName;
         this.recipeDescription = recipeDescription;
         this.recipeImage = recipeImage;
         this.recipeAuthorId = recipeAuthorId;
         this.recipeAuthorUsername = recipeAuthorUsername;
         this.recipeIngredients = recipeIngredients;
+        this.recipePreparationSteps = recipePreparationSteps;
     }
 
     //Getters-Setters
@@ -95,4 +97,13 @@ public class Recipe
         this.recipeAuthorUsername = recipeAuthorUsername;
     }
 
+    public String getRecipePreparationSteps()
+    {
+        return recipePreparationSteps;
+    }
+
+    public void setRecipePreparationSteps(String recipePreparationSteps)
+    {
+        this.recipePreparationSteps = recipePreparationSteps;
+    }
 }

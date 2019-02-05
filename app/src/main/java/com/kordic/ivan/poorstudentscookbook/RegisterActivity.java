@@ -49,6 +49,7 @@ public class RegisterActivity extends AppCompatActivity
     private Button buttonRegister;
 
     public Boolean usernameExists = false;
+    public String deafultUserImage = "https://firebasestorage.googleapis.com/v0/b/poorstudentscookbook-f9e8b.appspot.com/o/user%2Fdefault_user_profile_image.png?alt=media&token=c251ad47-1185-414d-a859-80013aff237c";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -188,10 +189,8 @@ public class RegisterActivity extends AppCompatActivity
                         {
                             if (task.isSuccessful())
                             {
-                                // Toast.makeText(RegisterActivity.this, "usao u taks succ", Toast.LENGTH_SHORT).show();
                                 for (DocumentSnapshot documentSnapshot : Objects.requireNonNull(task.getResult()))
                                 {
-                                    // Toast.makeText(RegisterActivity.this, "usao u for", Toast.LENGTH_SHORT).show();
                                     String user = documentSnapshot.getString("userUsername");
 
                                     assert user != null;
@@ -199,7 +198,6 @@ public class RegisterActivity extends AppCompatActivity
                                     {
                                         usernameExists = true;
                                         Toast.makeText(RegisterActivity.this, "Username already exists", Toast.LENGTH_SHORT).show();
-                                        //Toast.makeText(RegisterActivity.this, usernameExists.toString(), Toast.LENGTH_SHORT).show();
                                         return;
                                     }
                                 }
@@ -227,7 +225,7 @@ public class RegisterActivity extends AppCompatActivity
                             {
                                 Toast.makeText(RegisterActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
 
-                                userRef.document(Objects.requireNonNull(userAuth.getUid())).set(new User(userAuth.getUid(), Objects.requireNonNull(userAuth.getCurrentUser()).getEmail(), username, ""))
+                                userRef.document(Objects.requireNonNull(userAuth.getUid())).set(new User(userAuth.getUid(), Objects.requireNonNull(userAuth.getCurrentUser()).getEmail(), username, deafultUserImage))
                                         .addOnSuccessListener(new OnSuccessListener<Void>()
                                         {
                                             @Override
