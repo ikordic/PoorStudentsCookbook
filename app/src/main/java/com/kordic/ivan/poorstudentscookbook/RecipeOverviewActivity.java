@@ -59,7 +59,7 @@ public class RecipeOverviewActivity extends AppCompatActivity
         this.imageViewRecipeOverview = findViewById(R.id.imageViewRecipeOverview);
         this.textViewRecipeOverviewBy = findViewById(R.id.textViewRecipeOverviewBy);
         this.textViewRecipeOverviewPreparationSteps = findViewById(R.id.textViewRecipeOverviewPreparationSteps);
-
+        this.listViewRecipeIngredients = findViewById(R.id.listViewRecipeIngredients);
         if(savedInstanceState == null)
         {
             Bundle extras = getIntent().getExtras();
