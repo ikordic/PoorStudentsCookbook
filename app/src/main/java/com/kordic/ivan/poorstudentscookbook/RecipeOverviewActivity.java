@@ -2,6 +2,7 @@ package com.kordic.ivan.poorstudentscookbook;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -124,6 +125,6 @@ public class RecipeOverviewActivity extends AppCompatActivity
             }
         });
 
-
+        ViewCompat.setNestedScrollingEnabled(listViewRecipeIngredients,true);
     }
 }
