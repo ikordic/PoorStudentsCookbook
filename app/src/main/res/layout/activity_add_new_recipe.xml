@@ -120,9 +120,13 @@
                 android:focusable="false"
                 android:clickable="false"
                 android:onClick="onBtnClick"
+
                 android:text="Add ingredient"
 
                 />
+
+                
+
 
             <EditText
                 android:id="@+id/editTextNewRecipePreparationSteps"
@@ -147,9 +151,13 @@
                 android:layout_marginBottom="30dp"
                 android:text="Save recipe"
                 android:background="@drawable/button_background"
+
                 android:textSize="16sp"
                 android:focusableInTouchMode="false"
                 android:clickable="true" />
+
+         
+
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
