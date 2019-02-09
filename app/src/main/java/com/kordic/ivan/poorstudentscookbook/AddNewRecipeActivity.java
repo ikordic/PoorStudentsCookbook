@@ -1,16 +1,24 @@
 package com.kordic.ivan.poorstudentscookbook;
 
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.webkit.MimeTypeMap;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -61,6 +69,7 @@ public class AddNewRecipeActivity extends AppCompatActivity
     private ProgressBar progressBar;
     private ArrayAdapter adapter;
     private EditText editTextNewRecipePreparationSteps;
+    EditText input;
 
     ViewGroup progressView;
     protected boolean isProgressShowing = false;
@@ -191,14 +200,13 @@ public class AddNewRecipeActivity extends AppCompatActivity
                 newRecipeDescription = editTextNewRecipeDescription.getText().toString();
                 newRecipePreparationSteps = editTextNewRecipePreparationSteps.getText().toString();
 
-                if (newRecipeName.trim().isEmpty() || newRecipeDescription.trim().isEmpty() || newIngredients.isEmpty() || newRecipePreparationSteps.trim().isEmpty())
-                if (newRecipeName.trim().isEmpty() || newRecipeDescription.trim().isEmpty() )
-                {
+                if (newRecipeName.trim().isEmpty() || newRecipeDescription.trim().isEmpty() || newIngredients.isEmpty() || newRecipePreparationSteps.trim().isEmpty()) {
                     Toast.makeText(AddNewRecipeActivity.this, "Fill all fields and add at least one ingredient", Toast.LENGTH_LONG).show();
                     return;
                 }else if(newRecipeName.length()>125){
                     Toast.makeText(AddNewRecipeActivity.this, "Too big name for a recipe, maximum is 125 charachters", Toast.LENGTH_SHORT).show();
                 }else {
+
                     uploadFile();
                 }
             }
@@ -207,17 +215,70 @@ public class AddNewRecipeActivity extends AppCompatActivity
         newIngredients = new ArrayList<>();
          adapter = new ArrayAdapter<>(AddNewRecipeActivity.this, android.R.layout.simple_list_item_1, newIngredients);
         listViewIngredients.setAdapter(adapter);
-    }
+        ViewCompat.setNestedScrollingEnabled(listViewIngredients,true);
 
-    public void onBtnClick(View v){
-        buttonAddNewIgredient.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                String ingredient = editTextNewIgredient.getText().toString();
-                newIngredients.add(ingredient);
-                adapter.notifyDataSetChanged();
+        listViewIngredients.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                AlertDialog.Builder builder;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    builder = new AlertDialog.Builder(AddNewRecipeActivity.this, android.R.style.Theme_Material_Dialog_Alert);
+                } else {
+                    builder = new AlertDialog.Builder(AddNewRecipeActivity.this);
+                }
+
+                builder.setTitle("Edit ingredient");
+                builder.setMessage("Enter the ingredient: ");
+                input = new EditText(AddNewRecipeActivity.this);
+
+
+                String oldIngredient = newIngredients.get(position);
+                input.setText(oldIngredient);
+
+                builder.setView(input);
+                Log.i("Clicked ingredient", oldIngredient);
+                builder.setPositiveButton(getResources().getString(R.string.save), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                if(input.getText().equals("")){
+                                    newIngredients.remove(position);
+                                    adapter.notifyDataSetChanged();
+                                }
+                                newIngredients.set(position, input.getText().toString());
+                                adapter.notifyDataSetChanged();
+                            }
+                        })
+                        .setNegativeButton(getResources().getString(R.string.delete), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                newIngredients.remove(position);
+                                adapter.notifyDataSetChanged();
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+            return true;
             }
         });
+
+
+
     }
+
+
+    public void onBtnClick(View v){
+                buttonAddNewIgredient.requestFocus();
+                String ingredient = editTextNewIgredient.getText().toString();
+                if(ingredient.equals("")){
+                    Toast.makeText(AddNewRecipeActivity.this,"Enter an ingredient",Toast.LENGTH_LONG).show();
+                }else{
+                    newIngredients.add(ingredient);
+                    adapter.notifyDataSetChanged();
+                }
+                adapter.notifyDataSetChanged();
+                editTextNewIgredient.setText("");
+            }
+
+
+
 
     //ProgressBar
     public void showProgressingView()
@@ -421,7 +482,7 @@ public class AddNewRecipeActivity extends AppCompatActivity
                                 User user = documentSnapshot.toObject(User.class);
                                 assert user != null;
                                 recipeRef
-                                        .add(new Recipe(newRecipeName, newRecipeDescription, newRecipeImageUrl, userAuth.getUid(), user.getUserUsername(),newIngredients, "test"))
+                                        .add(new Recipe(newRecipeName, newRecipeDescription, newRecipeImageUrl, userAuth.getUid(), user.getUserUsername(),newIngredients, newRecipePreparationSteps))
                                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>()
                                         {
                                             @Override

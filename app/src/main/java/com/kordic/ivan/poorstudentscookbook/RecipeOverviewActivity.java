@@ -2,6 +2,7 @@ package com.kordic.ivan.poorstudentscookbook;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -46,7 +47,7 @@ public class RecipeOverviewActivity extends AppCompatActivity
 
     String recipeId = "";
     private String username = "";
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -58,8 +59,7 @@ public class RecipeOverviewActivity extends AppCompatActivity
         this.imageViewRecipeOverview = findViewById(R.id.imageViewRecipeOverview);
         this.textViewRecipeOverviewBy = findViewById(R.id.textViewRecipeOverviewBy);
         this.textViewRecipeOverviewPreparationSteps = findViewById(R.id.textViewRecipeOverviewPreparationSteps);
-        this.listViewRecipeIngredients = findViewById(R.id.listViewIngredients);
-
+        this.listViewRecipeIngredients = findViewById(R.id.listViewRecipeIngredients);
         if(savedInstanceState == null)
         {
             Bundle extras = getIntent().getExtras();
@@ -125,6 +125,6 @@ public class RecipeOverviewActivity extends AppCompatActivity
             }
         });
 
-
+        ViewCompat.setNestedScrollingEnabled(listViewRecipeIngredients,true);
     }
 }
