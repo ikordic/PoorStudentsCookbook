@@ -146,6 +146,14 @@ public class ProfileRecipesActivity extends AppCompatActivity
                 startActivity(new Intent(ProfileRecipesActivity.this, RecipeOverviewActivity.class).putExtra("RECIPE_ID", documentSnapshot.getId()));
             }
         });
+        adapter.setOnItemClickListener(new RecipeAdapter.OnItemLongClickListener()
+        {
+            @Override
+            public void onItemLongClick(DocumentSnapshot documentSnapshot, int position)
+            {
+                //intentionally blank
+            }
+        });
 
     }
 

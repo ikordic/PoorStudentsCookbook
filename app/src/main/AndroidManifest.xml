@@ -24,13 +24,15 @@
         <activity
             android:name=".RecipeOverviewActivity"
             android:parentActivityName=".RecipeCardViewActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionBar"/> <!-- Parent activity meta-data to support 4.0 and lower -->
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value="com.kordic.ivan.poorstudentscookbook.RecipeCardViewActivity" />
 
         <activity android:name=".AddNewRecipeActivity"
-            android:theme="@style/AppThemeNoActionBar"/>
+            android:theme="@style/AppThemeNoActionBar"
+            android:screenOrientation="portrait"/>
         <activity android:name=".RegisterActivity"
             android:theme="@style/AppThemeNoActionBar"/>
         <activity android:name=".RecipeCardViewActivity">

@@ -8,7 +8,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".RecipeOverviewActivity"
-    android:background="@drawable/bg_login"
+    android:background="@color/colorPrimary"
+    android:descendantFocusability="blocksDescendants"
     >
 
     <android.support.v4.widget.NestedScrollView
@@ -43,6 +44,7 @@
             android:shadowColor="@color/common_google_signin_btn_text_dark_default"
             android:text="textview"
             android:textAlignment="center"
+            android:textColor="@color/common_google_signin_btn_text_dark_default"
             android:textSize="28sp"
             android:textStyle="bold" />
 
@@ -82,12 +84,13 @@
             android:layout_marginStart="6dp"
             android:layout_marginTop="21dp"
             android:text="@string/sastojci"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <ListView
             android:id="@+id/listViewRecipeIngredients"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="200dp"
             android:layout_margin="15dp"
             android:layout_marginStart="15dp"
             android:layout_marginLeft="30dp"
@@ -103,7 +106,8 @@
             android:layout_marginStart="6dp"
             android:layout_marginTop="10dp"
             android:text="Preparation steps:"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/textViewRecipeOverviewPreparationSteps"
@@ -114,6 +118,7 @@
             android:layout_marginRight="17dp"
             android:layout_marginBottom="20dp"
             android:text=" test"
+            android:textColor="#FFFFFF"
             android:textAlignment="textStart"
             android:textSize="15sp" />
 

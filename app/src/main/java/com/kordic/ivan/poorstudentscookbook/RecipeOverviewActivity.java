@@ -53,7 +53,9 @@ public class RecipeOverviewActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_overview);
-        
+
+
+
         this.textViewRecipeOverviewName = findViewById(R.id.textViewRecipeOverviewName);
         this.textViewRecipeOverviewDescription = findViewById(R.id.textViewRecipeOverviewDescription);
         this.imageViewRecipeOverview = findViewById(R.id.imageViewRecipeOverview);

@@ -153,7 +153,23 @@ public class UserProfileActivity extends AppCompatActivity
                             if (task.isSuccessful())
                             {
                                 //Attach new image to user
-                                userRef.document(userAuth.getUid()).update("userProfileImage", Objects.requireNonNull(task.getResult()).toString());
+                                userRef.document(userAuth.getUid()).update("userProfileImage", Objects.requireNonNull(task.getResult()).toString())
+                                        .addOnSuccessListener(new OnSuccessListener<Void>()
+                                {
+                                    @Override
+                                    public void onSuccess(Void aVoid)
+                                    {
+                                        Toast.makeText(UserProfileActivity.this, "Image added!", Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                    .addOnFailureListener(new OnFailureListener()
+                                {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e)
+                                    {
+                                        Toast.makeText(UserProfileActivity.this, "There was an error", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                                 buttonUserProfileSaveImage.setClickable(true);
                             }
                             else

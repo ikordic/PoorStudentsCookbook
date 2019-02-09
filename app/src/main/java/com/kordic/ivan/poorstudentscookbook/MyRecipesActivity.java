@@ -125,7 +125,7 @@ public class MyRecipesActivity extends AppCompatActivity
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(MyRecipesActivity.this,"There was an error.",Toast.LENGTH_LONG).show();
+                                        //Toast.makeText(MyRecipesActivity.this,"There was an error.",Toast.LENGTH_LONG).show();
                                     }
                                 });
                                 adapter.notifyDataSetChanged();
